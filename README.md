@@ -1,2 +1,2 @@
-# OfuscArte
-El nombre fue idea de Miguel
+# SMITH 
+Cualquier parecido con el nombre de Smith es mera coincidencia
