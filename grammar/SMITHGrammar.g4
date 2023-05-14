@@ -19,8 +19,17 @@ grammar SMITHGrammar;
 program: block EOF ;
 
 // Decide block
-decideblock: DECIDE COLON decideargs OPEN_BRACKET block CLOSE_BRACKET;
-decideargs: IF conditional | IFNOT conditional | DEFAULT;
+decideblock: decideprefix IF conditional statementbody decisionextension SEMICOLON
+    ;
+decisionextension: decideprefix IFNOT conditional statementbody decisionextension
+    | decideprefix DEFAULT statementbody
+    ;
+decideprefix: DECIDE COLON
+    ;
+
+statementbody: OPEN_BRACKET block CLOSE_BRACKET
+    | expression
+    ;
 
 // Conditional
 conditional: OPEN_BRACE expression CLOSE_BRACE;
@@ -128,7 +137,7 @@ IDENTIFIER: [a-zA-Z][a-zA-Z0-9_]* ;
 
 // Scaping
 WS: [ \t\r\n]+ -> skip ; // skip spaces, tabs, newlines
-COMMENT: ';' ~[\r\n]* -> skip ; // skip comments
+COMMENT: '//' ~[\r\n]* -> skip ; // skip comments
 // Useful for non-case sensitive terminals
 A : 'a' | 'A' ;
 S: 's' | 'S' ;
