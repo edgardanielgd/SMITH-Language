@@ -16,29 +16,89 @@ grammar SMITHGrammar;
 // and forth...
 
 // Grammar
-program: block EOF ;
+program: block EOF
+    ;
+
+// Global utils
+atomictype: INT | FLOAT | BOOL | STRING;
+variabletype : atomictype | FUNCTION ;
 
 // Decide block
-decideblock: decideprefix IF conditional statementbody decisionextension SEMICOLON
+decideblock: decideprefix IF conditional statementbody decisionextension
     ;
+
 decisionextension: decideprefix IFNOT conditional statementbody decisionextension
     | decideprefix DEFAULT statementbody
+    | // Not even necessary
     ;
 decideprefix: DECIDE COLON
     ;
 
+// Define statement
+definestatement: defineprefix variabletype IDENTIFIER ASSIGN assignationexp SEMICOLON
+    ;
+
+assignationexp : expression
+    | functionblock
+    ;
+
+defineprefix: DEFINE COLON
+    ;
+
+// Loops statement
+loopblock: loopprefix loopextension
+    ;
+
+loopprefix: LOOP COLON
+    ;
+
+loopextension: REPEAT COLON repeattype conditional statementbody
+    | FOR COLON forextension statementbody
+    ;
+
+repeattype: UNTIL | WHILE
+    ;
+
+forextension: EACH OPEN_BRACE IDENTIFIER IN expression CLOSE_BRACE
+    | BLIND expression
+    ;
+
+rangeextension: COLON expression // Range offset
+    | // We can pass an offset or not
+    ;
+
+// Statements block / oneline expression
 statementbody: OPEN_BRACKET block CLOSE_BRACKET
-    | expression
+    | expression SEMICOLON
     ;
 
 // Conditional
 conditional: OPEN_BRACE expression CLOSE_BRACE;
+
+// Functions definition
+// Recall functions must be assigned to variables
+functionblock: functionarguments statementbody
+    ;
+
+functionarguments: OPEN_BRACE arguments CLOSE_BRACE
+    ;
+
+arguments : atomictype IDENTIFIER furtherarguments
+    | // Maybe we wouldn't like to pass arguments
+    ;
+
+furtherarguments : COMMA arguments
+    | // And again, maybe we would't like to pass more things here
+    ;
 
 // Expression
 expression: BOOLEAN_LITERAL; // Temporary will be the unique one here
 
 // Block
 block: decideblock block
+    | loopblock block
+    | expression SEMICOLON block
+    | definestatement block
     | // Block can be empty
     ;
 
@@ -73,6 +133,10 @@ CLOSE_BRACE: '}' ;
 // Literals
 INTEGER_LITERAL: [0-9]+ ;
 FLOAT_LITERAL: [0-9]+ '.' [0-9]+ ;
+
+// - Join integers with floats
+NUMBER_LITERAL: INTEGER_LITERAL | FLOAT_LITERAL;
+
 STRING_LITERAL: '"' ( '\\' . | ~('\\'|'"') )* '"' ;
 BOOLEAN_LITERAL: 'true' | 'false' ;
 
@@ -88,12 +152,24 @@ DEFAULT: 'default';
 
 // Loop block
 LOOP: 'loop' ;
+
+// - Repeat substatement
 REPEAT: 'repeat' ;
+UNTIL: 'until';
+WHILE: 'while';
+
+// - ForEach substatement
+FOR: 'for';
+EACH: 'each';
+IN: 'in';
+BLIND: 'blind';
 
 // Definitions block
 DEFINE: 'define' ;
 INT: 'int' ;
 FLOAT: 'float' ;
+// - Join Flaot with int
+NUMBER: INT | FLOAT;
 STRING: 'string' ;
 BOOL: 'bool' ;
 FUNCTION: 'function' ;
