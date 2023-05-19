@@ -21,7 +21,10 @@ program: block EOF
 
 // Global utils
 atomictype: INT | FLOAT | BOOL | STRING;
-variabletype : atomictype | FUNCTION ;
+variabletype : atomictype;
+
+// - Join integers with floats
+numberliteral: INTEGER_LITERAL | FLOAT_LITERAL ;
 
 // Decide block
 decideblock: decideprefix IF conditional statementbody decisionextension
@@ -35,7 +38,30 @@ decideprefix: DECIDE COLON
     ;
 
 // Define statement
-definestatement: defineprefix variabletype IDENTIFIER ASSIGN assignationexp SEMICOLON
+definestatement: defineprefix defineextension IDENTIFIER definedefaultvalue SEMICOLON
+    ;
+
+definedefaultvalue: ASSIGN assignationexp
+    | // Not even necessary, we can calculate a default value easily
+    ;
+
+defineextension: atomictype arrayextension
+    | FUNCTION functiondefextension
+    ;
+
+arrayextension: OPEN_BRACKET dimensions CLOSE_BRACKET
+    | // Not even necessary, we can define an array without dimensions
+    ;
+
+dimensions: numberliteral furtherdimensions
+    ;
+
+furtherdimensions: COMMA dimensions
+    | // We can pass more dimensions or not
+    ;
+
+functiondefextension : COLON atomictype
+    | // Not even necessary
     ;
 
 assignationexp : expression
@@ -60,7 +86,7 @@ repeattype: UNTIL | WHILE
     ;
 
 forextension: EACH OPEN_BRACE IDENTIFIER IN expression CLOSE_BRACE
-    | BLIND expression
+    | BLIND expression // No need for an index, just iterate an integer number of times
     ;
 
 rangeextension: COLON expression // Range offset
@@ -92,13 +118,56 @@ furtherarguments : COMMA arguments
     ;
 
 // Expression
-expression: BOOLEAN_LITERAL; // Temporary will be the unique one here
+expression: literal expressionextension
+    | OPEN_PAREN expression CLOSE_PAREN expressionextension
+    ;
+
+expressionextension: aritmeticoperator expression
+    | logicaloperator expression
+    | comparisonoperator expressionnc
+    | // Not even necessary
+    ;
+
+// - Expression without comparison operators
+expressionnc: literal expressionncextension
+    | OPEN_PAREN expression CLOSE_PAREN expressionncextension
+    ;
+
+// Note we removed here the comparison operators
+expressionncextension: aritmeticoperator expressionnc
+    | logicaloperator expressionnc
+    | // Not even necessary
+    ;
+
+aritmeticoperator: PLUS | MINUS | TIMES | DIVIDE | MOD
+    ;
+
+logicaloperator: AND | OR
+    ;
+
+comparisonoperator: LESS | GREATER | LESS_EQUAL | GREATER_EQUAL | EQUAL_EQUAL | NOT_EQUAL
+    ;
+
+literal: BOOLEAN_LITERAL
+      | STRING_LITERAL
+      | IDENTIFIER
+      | numberliteral
+      | functioncall
+      ;
+
+functioncall: IDENTIFIER functionarguments
+    ;
+
+// Return statement
+returnstatement: RETURN expression SEMICOLON
+    ;
 
 // Block
 block: decideblock block
     | loopblock block
-    | expression SEMICOLON block
     | definestatement block
+    | functioncall SEMICOLON block
+    | returnstatement block
     | // Block can be empty
     ;
 
@@ -133,10 +202,6 @@ CLOSE_BRACE: '}' ;
 // Literals
 INTEGER_LITERAL: [0-9]+ ;
 FLOAT_LITERAL: [0-9]+ '.' [0-9]+ ;
-
-// - Join integers with floats
-NUMBER_LITERAL: INTEGER_LITERAL | FLOAT_LITERAL;
-
 STRING_LITERAL: '"' ( '\\' . | ~('\\'|'"') )* '"' ;
 BOOLEAN_LITERAL: 'true' | 'false' ;
 
@@ -168,6 +233,7 @@ BLIND: 'blind';
 DEFINE: 'define' ;
 INT: 'int' ;
 FLOAT: 'float' ;
+ARRAY: 'array' ;
 // - Join Flaot with int
 NUMBER: INT | FLOAT;
 STRING: 'string' ;
