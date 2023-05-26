@@ -24,5 +24,6 @@ public class SMITHVisitor<T> extends SMITHGrammarBaseVisitor<T> {
         programVisitor.visitProgram(
             this, ctx
         );
+        return null;
     }
 }
