@@ -1,4 +1,4 @@
-// Generated from D:/UNAL Archivo/Lenguajes de Programación/SMITH/src/grammar\SMITHGrammar.g4 by ANTLR 4.12.0
+// Generated from D:/UNALArchivo/Lenguajes de Programacion/SMITH/src/grammar\SMITHGrammar.g4 by ANTLR 4.12.0
 package src.gen;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;

@@ -33,16 +33,16 @@ public class Main {
         );
 
         // Definition of parsers and visitor
-        ParseTree tree = parser.s();
+        ParseTree tree = parser.program();
         SMITHVisitor visitor = new SMITHVisitor();
 
         // Our custom visitor will generate an string
         // containing the final output, which is in fact
         // a translation from Small Basic to Javascript
 
-        String output = (String)visitor.visit(tree);
-        System.out.println(output);
-        FileOutputStream writer = new FileOutputStream(destFile);
-        writer.write(output.getBytes());
+        visitor.visit(tree);
+        // System.out.println(output);
+        // FileOutputStream writer = new FileOutputStream(destFile);
+        // writer.write(output.getBytes());
     }
 }

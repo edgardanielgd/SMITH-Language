@@ -1,3 +1,0 @@
-decide:if {true} [
-
-]

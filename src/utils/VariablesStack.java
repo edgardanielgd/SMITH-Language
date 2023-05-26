@@ -43,7 +43,7 @@ public class VariablesStack {
     private Stack<StackGroup> stack;
 
     public VariablesStack(){
-        this.stack = new Stack<Variable>();
+        this.stack = new Stack<StackGroup>();
     }
 
     // Push a new block
