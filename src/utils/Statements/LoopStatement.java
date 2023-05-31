@@ -3,14 +3,14 @@ import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.ContextManager;
 
-public class ReturnStatement {
+public class LoopStatement {
 
     public static int handle(
             ContextManager context,
-            SMITHGrammarParser.ReturnstatementContext ctx,
+            SMITHGrammarParser.LoopblockContext ctx,
             SMITHGrammarVisitor parentVisitor
     ){
-        // Handle return definition
+        // Handle loop definition
 
 
         return 0;
