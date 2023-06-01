@@ -1,4 +1,4 @@
-package probabilities;
+package src.probabilities;
 
 public class Probability {
 

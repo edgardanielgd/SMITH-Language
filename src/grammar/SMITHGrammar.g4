@@ -152,7 +152,7 @@ expressionncextension: aritmeticoperator expressionnc
     | // Not even necessary
     ;
 
-aritmeticoperator: PLUS | MINUS | TIMES | DIVIDE | MOD
+aritmeticoperator: TIMES | DIVIDE | MOD | PLUS | MINUS
     ;
 
 logicaloperator: AND | OR

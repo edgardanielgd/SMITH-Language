@@ -1,5 +1,6 @@
 package src.utils;
 
+import javax.naming.Context;
 import java.util.HashMap;
 import java.util.Stack;
 
@@ -10,6 +11,12 @@ public class ContextManager {
 
     // Useful for checking some environment issues
     boolean insideFunction = false;
+
+    // Return type expected for this function
+    int functionReturn = 0;
+
+    // Returned value for last function
+    Object returnValue = null;
 
     public ContextManager(){
         this.stack = new Stack<HashMap<String,Variable>>();
@@ -45,6 +52,14 @@ public class ContextManager {
         // Removes the current context, this is called when a block of code
         // is finished
         return this.stack.pop();
+    }
+
+    public void setReturnValue(Object _value){
+        this.returnValue = _value;
+    }
+
+    public Object getReturnValue(){
+        return this.returnValue;
     }
 
     // TODO: Add a method for slicing current block (for functions, in case we still want to do that crazy thing)

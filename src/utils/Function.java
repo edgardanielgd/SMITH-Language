@@ -42,7 +42,8 @@ public class Function<T> extends Variable {
     // Method for revisiting this function
     public T call(
             SMITHGrammarVisitor parentVisitor,
-            ContextManager context
+            ContextManager context,
+            SMITHGrammarParser.FunctionargumentsContext arguments
     ){
         // Handle function call
         return null;

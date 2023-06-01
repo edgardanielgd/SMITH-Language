@@ -2387,11 +2387,11 @@ public class SMITHGrammarParser extends Parser {
 
 	@SuppressWarnings("CheckReturnValue")
 	public static class AritmeticoperatorContext extends ParserRuleContext {
-		public TerminalNode PLUS() { return getToken(SMITHGrammarParser.PLUS, 0); }
-		public TerminalNode MINUS() { return getToken(SMITHGrammarParser.MINUS, 0); }
 		public TerminalNode TIMES() { return getToken(SMITHGrammarParser.TIMES, 0); }
 		public TerminalNode DIVIDE() { return getToken(SMITHGrammarParser.DIVIDE, 0); }
 		public TerminalNode MOD() { return getToken(SMITHGrammarParser.MOD, 0); }
+		public TerminalNode PLUS() { return getToken(SMITHGrammarParser.PLUS, 0); }
+		public TerminalNode MINUS() { return getToken(SMITHGrammarParser.MINUS, 0); }
 		public AritmeticoperatorContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}

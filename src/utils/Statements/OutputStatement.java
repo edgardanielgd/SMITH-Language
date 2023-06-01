@@ -13,6 +13,7 @@ public class OutputStatement {
             SMITHGrammarParser.OutputblockContext ctx,
             SMITHGrammarVisitor parentVisitor
     ){
+
         // Handle output definition
         SMITHGrammarParser.OutputextensionContext extension = ctx.outputextension();
 

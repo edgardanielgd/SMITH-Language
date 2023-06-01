@@ -1,7 +1,5 @@
-output:println{1 + 2 + 4 + 6 - 2 / 2 * 2};
-output:println{"de"};
-output:println{"mar"};
-output:println{"je"};
-output:println{"je"};
-output:print{"je"};
-output:println{"ja"};
+output:println{2};
+loop:for:blind 3 [
+    output:println{4};
+    output:println{5};
+];

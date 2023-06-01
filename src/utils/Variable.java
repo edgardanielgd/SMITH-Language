@@ -36,4 +36,7 @@ public class Variable<T> {
     public String getName(){
         return this.name;
     }
+    public int getType(){
+        return this.type;
+    }
 }
