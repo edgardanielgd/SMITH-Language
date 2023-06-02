@@ -93,6 +93,19 @@ rangeextension: COLON expression // Range offset
     | // We can pass an offset or not
     ;
 
+// Output statement
+outputblock: outputprefix outputextension
+    ;
+
+outputprefix: OUTPUT COLON
+    ;
+
+outputextension: printtype OPEN_BRACE expression CLOSE_BRACE SEMICOLON
+    ;
+
+printtype: PRINT | PRINTLN
+    ;
+
 // Statements block / oneline expression
 statementbody: OPEN_BRACKET block CLOSE_BRACKET
     | expression SEMICOLON
@@ -168,6 +181,7 @@ block: decideblock block
     | definestatement block
     | functioncall SEMICOLON block
     | returnstatement block
+    | outputblock block
     | // Block can be empty
     ;
 
@@ -246,6 +260,7 @@ OUTPUT: 'output' ;
 PRINT: 'print' ;
 PRINTLN: 'println' ;
 WRITEFILE: 'writefile' ;
+PLOT: 'plot' ;
 
 // Inputs block
 INPUT: 'input' ;

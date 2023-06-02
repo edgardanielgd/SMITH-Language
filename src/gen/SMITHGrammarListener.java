@@ -228,6 +228,46 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitRangeextension(SMITHGrammarParser.RangeextensionContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#outputblock}.
+	 * @param ctx the parse tree
+	 */
+	void enterOutputblock(SMITHGrammarParser.OutputblockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#outputblock}.
+	 * @param ctx the parse tree
+	 */
+	void exitOutputblock(SMITHGrammarParser.OutputblockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#outputprefix}.
+	 * @param ctx the parse tree
+	 */
+	void enterOutputprefix(SMITHGrammarParser.OutputprefixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#outputprefix}.
+	 * @param ctx the parse tree
+	 */
+	void exitOutputprefix(SMITHGrammarParser.OutputprefixContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#outputextension}.
+	 * @param ctx the parse tree
+	 */
+	void enterOutputextension(SMITHGrammarParser.OutputextensionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#outputextension}.
+	 * @param ctx the parse tree
+	 */
+	void exitOutputextension(SMITHGrammarParser.OutputextensionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#printtype}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrinttype(SMITHGrammarParser.PrinttypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#printtype}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrinttype(SMITHGrammarParser.PrinttypeContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#statementbody}.
 	 * @param ctx the parse tree
 	 */

@@ -3,14 +3,14 @@ import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.ContextManager;
 
-public class ReturnStatement {
+public class DecideStatement {
 
     public static int handle(
             ContextManager context,
-            SMITHGrammarParser.ReturnstatementContext ctx,
+            SMITHGrammarParser.DecideblockContext ctx,
             SMITHGrammarVisitor parentVisitor
-    ){
-        // Handle return definition
+            ){
+        // Handle if definition
 
 
         return 0;

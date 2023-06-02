@@ -1,57 +1,50 @@
 package src.utils;
-import src.utils.Statement;
+
+import src.gen.SMITHGrammarVisitor;
 import src.utils.Statements.*;
-import src.utils.Variable;
-import src.utils.Context;
-
+import src.utils.ContextManager;
 import java.util.*;
-
-
+import src.gen.SMITHGrammarParser;
 public class Function<T> extends Variable {
-    ArrayList<Statement> code;
 
-    T returnValue;
+    int returnType; // Its a Variable type
 
-    int returnType;
+    // Functions must have a custom context that has been sliced from original context
+    // and contains all variables defined before creating this function
+    ContextManager ownedContext;
 
-    Context context;
+    // We would save function parse tree here
+    // and revisit for each function call
+    SMITHGrammarParser.FunctionblockContext ctx;
 
-    private Function( String _name ){
+    private Function(
+            String _name,
+            ContextManager _context,
+            SMITHGrammarParser.FunctionblockContext _ctx
+            ){
         super(_name, Variable.FUNCTION);
+        this.ownedContext = _context;
+        this.ctx = _ctx;
         this.returnType = Variable.UNDEFINED;
     };
     public Function(
-        String _name, int _returnType
+        String _name,
+        int _returnType,
+        ContextManager _context,
+        SMITHGrammarParser.FunctionblockContext _ctx
     ){
         super(_name, Variable.FUNCTION);
+        this.ownedContext = _context;
+        this.ctx = _ctx;
         this.returnType = _returnType;
     }
 
-    public void addStatement(
-        ReturnStatement _statement
+    // Method for revisiting this function
+    public T call(
+            SMITHGrammarVisitor parentVisitor,
+            ContextManager context
     ){
-        this.code.add( _statement );
-    }
-
-    public ArrayList<Statement> getCode() {
-        return code;
-    }
-
-    // Execute code inside this function
-    public String execute() {
-        for( Statement statement : this.code ){
-            String result = statement.execute( null );
-
-            // Lets say this is an erro
-            if( result != null ) return result;
-
-            // Check if this is a return statement
-            if( statement.type == Statement.RETURN ){
-                // Return calculated valaue
-                T returnValue = ((ReturnStatement<T>) statement).getReturnValue();
-                break;
-            }
-        }
+        // Handle function call
         return null;
     }
 }

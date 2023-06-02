@@ -143,6 +143,30 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRangeextension(SMITHGrammarParser.RangeextensionContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#outputblock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOutputblock(SMITHGrammarParser.OutputblockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#outputprefix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOutputprefix(SMITHGrammarParser.OutputprefixContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#outputextension}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOutputextension(SMITHGrammarParser.OutputextensionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#printtype}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrinttype(SMITHGrammarParser.PrinttypeContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#statementbody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
