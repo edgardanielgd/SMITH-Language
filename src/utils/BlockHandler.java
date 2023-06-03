@@ -15,7 +15,6 @@ public class BlockHandler {
         context.push();
 
         int status = 0;
-        System.out.println("BlockHandler");
 
         // Visit statements on parent, all recursion start from here
         SMITHGrammarParser.BlockContext currentStatement = ctx;

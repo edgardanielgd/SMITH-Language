@@ -64,7 +64,7 @@ public class ContextManager {
         this.returnValue = _value;
     }
 
-    public Object getReturnValue(){
+    public Value getReturnValue(){
         return this.returnValue;
     }
 

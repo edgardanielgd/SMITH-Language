@@ -33,7 +33,7 @@ public class FunctionCallStatement {
         }
 
         // Get actual function
-        Function function = (Function) functionVar.value.value;
+        Function function = (Function) functionVar.value;
 
         // Reset context return value
         context.setReturnValue(null);

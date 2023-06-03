@@ -42,7 +42,7 @@ definestatement: defineprefix defineextension SEMICOLON
     ;
 
 defineextension: atomictype arrayextension IDENTIFIER definedefaultvalue
-    | FUNCTION functiondefextension IDENTIFIER functionblock
+    | FUNCTION functiondefextension IDENTIFIER ASSIGN functionblock
     ;
 
 definedefaultvalue: ASSIGN expression
@@ -118,7 +118,7 @@ functionblock: functionarguments statementbody
 functionarguments: OPEN_BRACE arguments CLOSE_BRACE
     ;
 
-arguments : atomictype IDENTIFIER furtherarguments
+arguments : atomictype COLON IDENTIFIER furtherarguments
     | // Maybe we wouldn't like to pass arguments
     ;
 

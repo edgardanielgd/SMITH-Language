@@ -52,7 +52,7 @@ public class Function extends Value {
         SMITHGrammarParser.FurtherargumentsContext furtherarguments;
 
         // Collect all of given arguments
-        while( argument != null ){
+        while( argument != null && argument.getChildCount() > 0 ){
             // While there are arguments, add them to list
             String argName = argument.IDENTIFIER().getText();
             SMITHGrammarParser.AtomictypeContext argType = argument.atomictype();
@@ -103,7 +103,14 @@ public class Function extends Value {
 
         // Iterator for arguments
         int argIterator = 0;
-        while( callargument != null ){
+        while( callargument != null && callargument.getChildCount() > 0 ){
+
+            // Check if we got more params than the expected length
+            if( argIterator >= args.size() ){
+                // We got more params than expected
+                return 1;
+            }
+
             Value evaluatedValue = Expression.evaluate(
                     callargument.expression(),
                     givenContext,
@@ -116,6 +123,8 @@ public class Function extends Value {
                 return 1;
             }
 
+
+
             // Define argument in context
             context.defineVariable(
                     args.get(argIterator).name,
@@ -125,13 +134,37 @@ public class Function extends Value {
                     )
             );
 
+            System.out.println("Argument: " + args.get(argIterator).name + " = " + evaluatedValue.value);
+
             // Advance in arguments list
             furthercallarguments = callargument.furthercallarguments();
             callargument = furthercallarguments.callarguments();
+
+            // Advance in argument iterator
+            argIterator++;
         }
 
         // Now call function body
 
+        BlockHandler.handle(
+                this.ctx.statementbody().block(),
+                context,
+                parentVisitor
+        );
+
+        // Check if our own context got a milagrous return value
+        if( context.returnValue != null ){
+            // We got a return value
+            // Check if it matches expected type
+            if( context.returnValue.type != this.returnType ){
+                // Type mismatch
+                return 1;
+            }
+
+            // Save return value in given context
+            givenContext.returnValue = context.returnValue;
+
+        }
 
         context.pop();
         return 0;

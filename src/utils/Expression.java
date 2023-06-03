@@ -49,19 +49,55 @@ public class Expression {
 
         // Get literal type
 
-        if( literal.IDENTIFIER() != null ){
-
+        if( literal.IDENTIFIER() != null ) {
             // Check if identifier exists
             String variableName = literal.IDENTIFIER().getText();
             Variable variable = context.searchVariable(variableName);
 
-            if( variable == null ){
+            if (variable == null) {
                 // If variable does not exist
                 return null;
             } else {
                 // If variable exists
                 return variable.value;
             }
+        } else if( literal.functioncall() != null ){
+
+            SMITHGrammarParser.FunctioncallContext functioncall = literal.functioncall();
+            // Get function name
+            String functionName = functioncall.IDENTIFIER().getText();
+
+            Variable var = context.searchVariable(functionName);
+            if( var == null ){
+                // Function not found
+                return null;
+            }
+
+            // Check if that var is a function
+            Value varValue = var.value;
+            if( varValue.type != Variable.FUNCTION ){
+                // This is not a function
+                return null;
+            }
+
+            // Get actual function
+            Function function = (Function) varValue;
+
+            // call function
+            function.call(
+                    null,
+                    context,
+                    functioncall.functioncallarguments()
+            );
+
+            // Context now should have the return value, if any
+            Value toReturn = context.getReturnValue();
+
+            // Reset context return value
+            context.setReturnValue(null);
+            System.out.println("pasa");
+
+            return toReturn;
         } else {
             int literalType = getLiteralType(literal, context);
 

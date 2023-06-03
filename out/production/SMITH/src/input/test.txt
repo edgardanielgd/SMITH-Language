@@ -1,15 +1,11 @@
 output:println{2*3+5*6+8};
-output:println{"pasa"};
 define:float b as 5;
-output:println{"pasa"};
 loop:for:noiterator 2 [
 
-    define:string d as "ola";
+    define:string d as "ola ";
     output:print{d};
 
 ]
-
-
 
 define:float c as 10;
 
@@ -27,3 +23,9 @@ decide:if {4 < 4} [
 
 define:int a as b*c+40;
 output:println{a};
+define:function:int d as {int:x, int:y} [
+    output:println{a+b};
+    return x+y;
+];
+
+output:println{call:d{4,5}+2};
