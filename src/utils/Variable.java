@@ -20,7 +20,7 @@ public class Variable<T> {
     // Default constructor (we don't have default value yet)
     public Variable(String _name, int _type){
         this.name = _name;
-        this.type = type;
+        this.type = _type;
     }
 
     // Default setters & getters

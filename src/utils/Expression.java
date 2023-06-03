@@ -24,6 +24,18 @@ public class Expression {
             } else {
                 return Variable.NUMBER;
             }
+        } else if( ctx.IDENTIFIER() != null ){
+            // Check if identifier exists
+            String variableName = ctx.IDENTIFIER().getText();
+            Variable variable = context.searchVariable(variableName);
+
+            if( variable == null ){
+                // If variable does not exist
+                return -1;
+            } else {
+                // If variable exists
+                return variable.getType();
+            }
         }
         return -1;
     }
@@ -38,6 +50,7 @@ public class Expression {
         // Get literal type
 
         if( literal.IDENTIFIER() != null ){
+
             // Check if identifier exists
             String variableName = literal.IDENTIFIER().getText();
             Variable variable = context.searchVariable(variableName);
@@ -64,7 +77,6 @@ public class Expression {
                         Variable.STRING
                 );
             }
-
             else if( literalType == Variable.INT ){
                 // Parse all numbers to double
                 try{

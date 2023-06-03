@@ -7,7 +7,7 @@ import java.util.Stack;
 // Create an Stack of "Contexts", each Context is composed by
 // a hashmap identifying variables
 public class ContextManager {
-    private Stack<HashMap<String, Variable>> stack;
+    public Stack<HashMap<String, Variable>> stack;
 
     // Useful for checking some environment issues
     boolean insideFunction = false;
