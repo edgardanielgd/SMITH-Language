@@ -4,6 +4,7 @@ import src.gen.SMITHGrammarBaseVisitor;
 import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.Expressions.*;
+import src.utils.Expressions.AritmeticOperator;
 import src.utils.Variable;
 
 public class Expression {
@@ -27,165 +28,281 @@ public class Expression {
         return -1;
     }
 
+    // Evaluate and get literal value
+    public static Value evaluateLiteral(
+            SMITHGrammarParser.LiteralContext literal,
+            ContextManager context
+    ) {
+        // We are performing an operation directly
+
+        // Get literal type
+
+        if( literal.IDENTIFIER() != null ){
+            // Check if identifier exists
+            String variableName = literal.IDENTIFIER().getText();
+            Variable variable = context.searchVariable(variableName);
+
+            if( variable == null ){
+                // If variable does not exist
+                return null;
+            } else {
+                // If variable exists
+                return new Value<>(
+                        variable.getValue(),
+                        variable.getType()
+                );
+            }
+        } else {
+            int literalType = getLiteralType(literal, context);
+
+            if( literalType == Variable.STRING ){
+                // Remove " " from string
+                String stringLiteral = literal.STRING_LITERAL().getText();
+                stringLiteral = stringLiteral.substring(1, stringLiteral.length() - 1);
+                return new Value<>(
+                        stringLiteral,
+                        Variable.STRING
+                );
+            }
+
+            else if( literalType == Variable.INT ){
+                // Parse all numbers to double
+                try{
+                    return new Value<>(
+                            Integer.parseInt(literal.numberliteral().getText()),
+                            Variable.INT
+                    );
+                } catch (NumberFormatException e){
+                    return null;
+                }
+            }
+            else if( literalType == Variable.FLOAT ){
+                // Parse all numbers to double
+                try{
+                    return new Value<>(
+                            Double.parseDouble(literal.numberliteral().getText()),
+                            Variable.FLOAT
+                    );
+                } catch (NumberFormatException e){
+                    return null;
+                }
+            }
+            else if( literalType == Variable.BOOLEAN )
+                return new Value<>(
+                        Boolean.parseBoolean(literal.BOOLEAN_LITERAL().getText()),
+                        Variable.BOOLEAN
+                );
+            else
+                return null;
+        }
+    }
+
     public static Value evaluate(
             SMITHGrammarParser.ExpressionContext ctx,
             ContextManager context,
             SMITHGrammarVisitor parentVisitor
     ){
+        // System.out.println(ctx.getText());
         // Handle expression and return appropriate value
 
-        SMITHGrammarParser.ExpressionextensionContext extension = ctx.expressionextension();
         Value leftmostEvaluatedValue;
 
         // Check on which kind of rule are we standing on
+
+        // This time we got a direct value
         if( ctx.literal() != null ){
-            // We are performing an operation directly
-
-            // Get literal type
-
-            if( ctx.literal().IDENTIFIER() != null ){
-                // Check if identifier exists
-                String variableName = ctx.literal().IDENTIFIER().getText();
-                Variable variable = context.searchVariable(variableName);
-
-                if( variable == null ){
-                    // If variable does not exist
-                    return null;
-                } else {
-                    // If variable exists
-                    leftmostEvaluatedValue = new Value<>(
-                            variable.getValue(),
-                            variable.getType()
-                    );
-                }
-            } else {
-                int literalType = getLiteralType(ctx.literal(), context);
-
-                if( literalType == Variable.STRING ){
-                    // Remove " " from string
-                    String stringLiteral = ctx.literal().STRING_LITERAL().getText();
-                    stringLiteral = stringLiteral.substring(1, stringLiteral.length() - 1);
-                    leftmostEvaluatedValue = new Value<>(
-                            stringLiteral,
-                            Variable.STRING
-                    );
-                }
-
-                else if( literalType == Variable.INT ){
-                    // Parse all numbers to double
-                    try{
-                        leftmostEvaluatedValue = new Value<Integer>(
-                                Integer.parseInt(ctx.literal().numberliteral().getText()),
-                                Variable.INT
-                        );
-                    } catch (NumberFormatException e){
-                        return null;
-                    }
-                }
-                else if( literalType == Variable.FLOAT ){
-                    // Parse all numbers to double
-                    try{
-                        leftmostEvaluatedValue = new Value<Double>(
-                                Double.parseDouble(ctx.literal().numberliteral().getText()),
-                                Variable.FLOAT
-                        );
-                    } catch (NumberFormatException e){
-                        return null;
-                    }
-                }
-                else if( literalType == Variable.BOOLEAN )
-                    leftmostEvaluatedValue = new Value<Boolean>(
-                            Boolean.parseBoolean(ctx.literal().BOOLEAN_LITERAL().getText()),
-                            Variable.BOOLEAN
-                    );
-                else
-                    return null;
-            }
-
-
-            // Now that we got the literal value, check if an operation must be performed
-            if(
-                    extension != null &&
-                    extension.getChildCount() > 0
-            ){
-                // Decide which kind of comparison are we going to perform around here B)
-
-                // First than all, get value evaluated by right side
-                Value rightmostEvaluatedValue = (Value)evaluate(
-                        extension.expression(),
-                        context,
-                        parentVisitor
-                );
-
-                if( extension.aritmeticoperator() != null ){
-                    return AritmeticOperator.evaluate(
-                            leftmostEvaluatedValue, rightmostEvaluatedValue,
-                            extension.aritmeticoperator()
-                    );
-                } else if( extension.logicaloperator() != null ){
-                    return LogicalOperator.evaluate(
-                            leftmostEvaluatedValue, rightmostEvaluatedValue,
-                            extension.logicaloperator()
-                    );
-                } else if( extension.comparisonoperator() != null ){
-                    return ComparisonOperator.evaluate(
-                            leftmostEvaluatedValue, rightmostEvaluatedValue,
-                            extension.comparisonoperator()
-                    );
-                }
-
-            } else {
-                // This is a final value, so just return it
-                return leftmostEvaluatedValue;
-            }
-
+            return evaluateLiteral(ctx.literal(), context);
         }
-        else {
-            // There are parenthesis, so just return expression evaluated
-            Value leftParenthesisEvaluatedValue = (Value)evaluate(
-                    ctx.expression(),
+        // Check if there are parenthesis
+        if( ctx.OPEN_PAREN() != null ){
+            return evaluate(
+                    ctx.expression(0),
+                    context,
+                    parentVisitor
+            );
+        }
+        // Check if this a minus (negation of an expression)
+        if( ctx.MINUS() != null && ctx.getChildCount() == 2){
+            Value evaluated = evaluate(
+                    ctx.expression(0),
                     context,
                     parentVisitor
             );
 
-            // Now that we got the literal value, check if an operation must be performed
-            if(
-                    ctx.expressionextension() != null &&
-                    ctx.expressionextension().getChildCount() > 0
-            ){
-                // Decide which kind of comparison are we going to perform around here B)
+            if( evaluated == null )
+                return null;
 
-                // First than all, get value evaluated by right side
-                Value rightmostEvaluatedValue = (Value)evaluate(
-                        ctx.expressionextension().expression(),
-                        context,
-                        parentVisitor
-                );
+            return AritmeticOperator.singleMinus(evaluated);
+        }
+        // Check if there are logical expressions
+        if( ctx.logicaloperator() != null ){
 
-                if( extension.aritmeticoperator() != null ){
-                    return AritmeticOperator.evaluate(
-                            leftParenthesisEvaluatedValue, rightmostEvaluatedValue,
-                            extension.aritmeticoperator()
-                    );
-                } else if( extension.logicaloperator() != null ){
-                    return LogicalOperator.evaluate(
-                            leftParenthesisEvaluatedValue, rightmostEvaluatedValue,
-                            extension.logicaloperator()
-                    );
-                } else if( extension.comparisonoperator() != null ){
-                    return ComparisonOperator.evaluate(
-                            leftParenthesisEvaluatedValue, rightmostEvaluatedValue,
-                            extension.comparisonoperator()
-                    );
-                }
+            // Getting value for each operand
 
-            } else {
-                // This is a final value, so just return it
-                return leftParenthesisEvaluatedValue;
+            Value rightMost = evaluate(
+                    ctx.expression(1),
+                    context,
+                    parentVisitor
+            );
+            Value leftMost = evaluate(
+                    ctx.expression(0),
+                    context,
+                    parentVisitor
+            );
+
+            if( rightMost == null || leftMost == null )
+                return null;
+
+            // Separate AND and OR logic within source file
+            return LogicalOperator.evaluate(
+                    leftMost,
+                    rightMost,
+                    ctx.logicaloperator()
+            );
+        }
+        // Check if there is a comparison operator
+        if( ctx.comparisonoperator() != null ){
+            // have on mind that there are two expressionsnc trees
+            Value rightMost = evaluateNonComparatorExp(
+                    ctx.expressionnc(1),
+                    context,
+                    parentVisitor
+            );
+
+            Value leftMost = evaluateNonComparatorExp(
+                    ctx.expressionnc(0),
+                    context,
+                    parentVisitor
+            );
+
+            if( rightMost == null || leftMost == null )
+                return null;
+
+            return ComparisonOperator.evaluate(
+                    leftMost,
+                    rightMost,
+                    ctx.comparisonoperator()
+            );
+        }
+        // Check if there are aritmetic expressions
+        else {
+
+            // Getting value for each operand
+
+            Value rightMost = evaluate(
+                    ctx.expression(1),
+                    context,
+                    parentVisitor
+            );
+            Value leftMost = evaluate(
+                    ctx.expression(0),
+                    context,
+                    parentVisitor
+            );
+
+            if( ctx.TIMES() != null ){
+                return AritmeticOperator.times(leftMost, rightMost);
+            } else if( ctx.DIVIDE() != null ){
+                return AritmeticOperator.divide(leftMost, rightMost);
+            } else if( ctx.PLUS() != null ){
+                return AritmeticOperator.sum(leftMost, rightMost);
+            } else if( ctx.MINUS() != null ){
+                return AritmeticOperator.difference(leftMost, rightMost);
+            } else if( ctx.MOD() != null ){
+                return AritmeticOperator.mod(leftMost, rightMost);
             }
+        }
+        return null;
+    }
+    public static Value evaluateNonComparatorExp(
+        SMITHGrammarParser.ExpressionncContext ctx,
+        ContextManager context,
+        SMITHGrammarVisitor parentVisitor
+    ){
+        // Handle expression and return appropriate value
 
+        Value leftmostEvaluatedValue;
 
+        // Check on which kind of rule are we standing on
 
+        // This time we got a direct value
+        if( ctx.literal() != null ){
+            return evaluateLiteral(ctx.literal(), context);
+        }
+        // Check if there are parenthesis
+        if( ctx.OPEN_PAREN() != null ){
+            return evaluateNonComparatorExp(
+                    ctx.expressionnc(0),
+                    context,
+                    parentVisitor
+            );
+        }
+        // Check if this a minus (negation of an expression)
+        if( ctx.MINUS() != null && ctx.getChildCount() == 2){
+            Value evaluated = evaluateNonComparatorExp(
+                    ctx.expressionnc(0),
+                    context,
+                    parentVisitor
+            );
+
+            if( evaluated == null )
+                return null;
+
+            return AritmeticOperator.singleMinus(evaluated);
+        }
+        // Check if there are logical expressions
+        if( ctx.logicaloperator() != null ){
+
+            // Getting value for each operand
+
+            Value rightMost = evaluateNonComparatorExp(
+                    ctx.expressionnc(1),
+                    context,
+                    parentVisitor
+            );
+            Value leftMost = evaluateNonComparatorExp(
+                    ctx.expressionnc(0),
+                    context,
+                    parentVisitor
+            );
+
+            if( rightMost != null || leftMost != null )
+                return null;
+
+            // Separate AND and OR logic within source file
+            return LogicalOperator.evaluate(
+                    leftMost,
+                    rightMost,
+                    ctx.logicaloperator()
+            );
+        }
+        // Check if there are aritmetic expressions
+        else {
+
+            // Getting value for each operand
+
+            Value rightMost = evaluateNonComparatorExp(
+                    ctx.expressionnc(1),
+                    context,
+                    parentVisitor
+            );
+            Value leftMost = evaluateNonComparatorExp(
+                    ctx.expressionnc(0),
+                    context,
+                    parentVisitor
+            );
+
+            if( ctx.TIMES() != null ){
+                return AritmeticOperator.times(leftMost, rightMost);
+            } else if( ctx.DIVIDE() != null ){
+                return AritmeticOperator.divide(leftMost, rightMost);
+            } else if( ctx.PLUS() != null ){
+                return AritmeticOperator.sum(leftMost, rightMost);
+            } else if( ctx.MINUS() != null ){
+                return AritmeticOperator.difference(leftMost, rightMost);
+            } else if( ctx.MOD() != null ){
+                return AritmeticOperator.mod(leftMost, rightMost);
+            }
         }
         return null;
     }

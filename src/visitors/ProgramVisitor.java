@@ -22,8 +22,6 @@ public class ProgramVisitor {
         // their scope by means of a stack of contexts (HashMaps actually)
         ContextManager context = new ContextManager();
 
-
-
         BlockHandler.handle(
                 ctx.block(),
                 context,

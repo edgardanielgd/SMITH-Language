@@ -131,28 +131,28 @@ furtherarguments : COMMA arguments
     ;
 
 // Expression
-expression: literal expressionextension
-    | OPEN_PAREN expression CLOSE_PAREN expressionextension
-    ;
-
-expressionextension: aritmeticoperator expression
-    | logicaloperator expression
-    | comparisonoperator expressionnc
-    | // Not even necessary
+expression: literal
+    | MINUS expression
+    | expression TIMES expression
+    | expression DIVIDE expression
+    | expression MOD expression
+    | expression PLUS expression
+    | expression MINUS expression
+    | expression logicaloperator expression
+    | expressionnc comparisonoperator expressionnc
+    | OPEN_PAREN expression CLOSE_PAREN
     ;
 
 // - Expression without comparison operators
-expressionnc: literal expressionncextension
-    | OPEN_PAREN expression CLOSE_PAREN expressionncextension
-    ;
-
-// Note we removed here the comparison operators
-expressionncextension: aritmeticoperator expressionnc
-    | logicaloperator expressionnc
-    | // Not even necessary
-    ;
-
-aritmeticoperator: TIMES | DIVIDE | MOD | PLUS | MINUS
+expressionnc: literal
+    | MINUS expressionnc
+    | expressionnc TIMES expressionnc
+    | expressionnc DIVIDE expressionnc
+    | expressionnc MOD expressionnc
+    | expressionnc PLUS expressionnc
+    | expressionnc MINUS expressionnc
+    | expressionnc logicaloperator expression
+    | OPEN_PAREN expression CLOSE_PAREN
     ;
 
 logicaloperator: AND | OR

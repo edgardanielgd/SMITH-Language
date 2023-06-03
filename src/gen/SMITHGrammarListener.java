@@ -338,16 +338,6 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitExpression(SMITHGrammarParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SMITHGrammarParser#expressionextension}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionextension(SMITHGrammarParser.ExpressionextensionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SMITHGrammarParser#expressionextension}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionextension(SMITHGrammarParser.ExpressionextensionContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#expressionnc}.
 	 * @param ctx the parse tree
 	 */
@@ -357,26 +347,6 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionnc(SMITHGrammarParser.ExpressionncContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SMITHGrammarParser#expressionncextension}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionncextension(SMITHGrammarParser.ExpressionncextensionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SMITHGrammarParser#expressionncextension}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionncextension(SMITHGrammarParser.ExpressionncextensionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SMITHGrammarParser#aritmeticoperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterAritmeticoperator(SMITHGrammarParser.AritmeticoperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SMITHGrammarParser#aritmeticoperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitAritmeticoperator(SMITHGrammarParser.AritmeticoperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#logicaloperator}.
 	 * @param ctx the parse tree

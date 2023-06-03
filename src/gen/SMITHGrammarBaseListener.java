@@ -413,18 +413,6 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpressionextension(SMITHGrammarParser.ExpressionextensionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionextension(SMITHGrammarParser.ExpressionextensionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterExpressionnc(SMITHGrammarParser.ExpressionncContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -432,30 +420,6 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitExpressionnc(SMITHGrammarParser.ExpressionncContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterExpressionncextension(SMITHGrammarParser.ExpressionncextensionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitExpressionncextension(SMITHGrammarParser.ExpressionncextensionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAritmeticoperator(SMITHGrammarParser.AritmeticoperatorContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAritmeticoperator(SMITHGrammarParser.AritmeticoperatorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

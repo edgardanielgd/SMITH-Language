@@ -8,6 +8,7 @@ public class LogicalOperator {
             Value leftMost, Value rightMost,
             SMITHGrammarParser.LogicaloperatorContext ctx
     ){
+        System.out.println( "STARTS");
         // Check first if we are able to perform operation
         // Note despite its title, we won't work with numbers all the time actually
         boolean areValidOperands = (
@@ -29,7 +30,7 @@ public class LogicalOperator {
 
         else
             return null;
-
+        System.out.println( "LOGICAL OPERATOR");
         return new Value<>( value, Variable.BOOLEAN );
 
     }

@@ -209,29 +209,11 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitExpression(SMITHGrammarParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SMITHGrammarParser#expressionextension}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionextension(SMITHGrammarParser.ExpressionextensionContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#expressionnc}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionnc(SMITHGrammarParser.ExpressionncContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SMITHGrammarParser#expressionncextension}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionncextension(SMITHGrammarParser.ExpressionncextensionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SMITHGrammarParser#aritmeticoperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAritmeticoperator(SMITHGrammarParser.AritmeticoperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#logicaloperator}.
 	 * @param ctx the parse tree

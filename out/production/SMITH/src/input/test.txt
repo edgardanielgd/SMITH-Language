@@ -1,5 +1,16 @@
-output:println{2};
+output:println{2*3+5*6+8};
 loop:for:blind 3 [
     output:println{4};
     output:println{5};
-];
+]
+decide:if {4 < 4} [
+    output:println{"ola"};
+] decide:ifnot {6 > 5} [
+    output:println{11};
+] decide:ifnot {6 > 7} [
+    output:println{12};
+] decide:ifnot {8 < 9} [
+    output:println{"pan"};
+] decide:default [
+    output:println{14};
+]

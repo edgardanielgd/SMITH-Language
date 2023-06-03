@@ -17,6 +17,7 @@ public class BlockHandler {
         // Visit statements on parent, all recursion start from here
         SMITHGrammarParser.BlockContext currentStatement = ctx;
         while( currentStatement != null ) {
+
             int status = Statement.handle(
                     context,
                     currentStatement,
@@ -32,8 +33,8 @@ public class BlockHandler {
         }
 
         // Pop last remaining block after finishing all of these things
-        context.push();
-
+        context.pop();
         return 0;
+
     }
 }

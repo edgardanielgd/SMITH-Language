@@ -10,7 +10,7 @@ public class DecideStatement {
             ContextManager context,
             SMITHGrammarParser.DecideblockContext ctx,
             SMITHGrammarVisitor parentVisitor
-            ){
+    ){
         // Handle if definition
 
         // Get conditional and its expression
@@ -20,6 +20,8 @@ public class DecideStatement {
         // Evaluate expression
         Value evaluatedExpression = Expression.evaluate(expression, context, parentVisitor);
         SMITHGrammarParser.StatementbodyContext statementBody = ctx.statementbody();
+        SMITHGrammarParser.DecisionextensionContext decisionExtension =
+                ctx.decisionextension();
 
         while(
             evaluatedExpression.type == Variable.BOOLEAN &&
@@ -27,10 +29,9 @@ public class DecideStatement {
         ){
             // We haven't gotten a true value yet
             // Evaluate next conditional
-            SMITHGrammarParser.DecisionextensionContext decisionExtension =
-                    ctx.decisionextension();
+
             if( decisionExtension == null ){
-                // No more conditionals to evaluate
+                // There is no else statement
                 return 0;
             }
 
@@ -48,13 +49,18 @@ public class DecideStatement {
                 statementBody = decisionExtension.statementbody();
                 break;
             }
+
+            // Get next decision extension
+            decisionExtension = decisionExtension.decisionextension();
         }
 
         // Check if body is null
+        if( statementBody == null || statementBody.getChildCount() == 0){
+            return 0;
+        }
 
         // Now statementBody has the body to execute
         // Execute it
-
         BlockHandler.handle(statementBody.block(), context, parentVisitor);
 
         return 0;

@@ -26,22 +26,22 @@ public class ComparisonOperator {
         boolean value;
 
         if( ctx.LESS() != null )
-            value = ((Comparable)leftMost).compareTo( rightMost ) < 0;
+            value = ((Comparable)leftMost.value).compareTo( rightMost.value ) < 0;
 
         else if( ctx.LESS_EQUAL() != null )
-            value = ((Comparable)leftMost).compareTo( rightMost ) <= 0;
+            value = ((Comparable)leftMost.value).compareTo( rightMost.value ) <= 0;
 
         else if( ctx.GREATER() != null )
-            value = ((Comparable)leftMost).compareTo( rightMost ) > 0;
+            value = ((Comparable)leftMost.value).compareTo( rightMost.value ) > 0;
 
         else if( ctx.GREATER_EQUAL() != null )
-            value = ((Comparable)leftMost).compareTo( rightMost ) >= 0;
+            value = ((Comparable)leftMost.value).compareTo( rightMost.value ) >= 0;
 
         else if( ctx.EQUAL_EQUAL() != null )
-            value = ((Comparable)leftMost).compareTo( rightMost ) == 0;
+            value = ((Comparable)leftMost.value).compareTo( rightMost.value ) == 0;
 
         else if( ctx.NOT_EQUAL() != null )
-            value = ((Comparable)leftMost).compareTo( rightMost ) != 0;
+            value = ((Comparable)leftMost.value).compareTo( rightMost.value ) != 0;
 
         else
             return null;
