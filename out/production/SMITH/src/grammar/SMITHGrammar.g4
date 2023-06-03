@@ -38,15 +38,15 @@ decideprefix: DECIDE COLON
     ;
 
 // Define statement
-definestatement: defineprefix defineextension IDENTIFIER definedefaultvalue SEMICOLON
+definestatement: defineprefix defineextension SEMICOLON
     ;
 
-definedefaultvalue: ASSIGN assignationexp
+defineextension: atomictype arrayextension IDENTIFIER definedefaultvalue
+    | FUNCTION functiondefextension IDENTIFIER functionblock
+    ;
+
+definedefaultvalue: ASSIGN expression
     | // Not even necessary, we can calculate a default value easily
-    ;
-
-defineextension: atomictype arrayextension
-    | FUNCTION functiondefextension
     ;
 
 arrayextension: OPEN_BRACKET dimensions CLOSE_BRACKET
@@ -62,10 +62,6 @@ furtherdimensions: COMMA dimensions
 
 functiondefextension : COLON atomictype
     | // Not even necessary
-    ;
-
-assignationexp : expression
-    | functionblock
     ;
 
 defineprefix: DEFINE COLON
@@ -171,6 +167,17 @@ literal: BOOLEAN_LITERAL
 functioncall: IDENTIFIER functionarguments
     ;
 
+functioncallarguments: OPEN_BRACE callarguments CLOSE_BRACE
+    ;
+
+callarguments: expression furthercallarguments
+    | // We can pass arguments or not
+    ;
+
+furthercallarguments: COMMA callarguments
+    | // We can pass more arguments or not
+    ;
+
 // Return statement
 returnstatement: RETURN expression SEMICOLON
     ;
@@ -241,7 +248,7 @@ WHILE: 'while';
 FOR: 'for';
 EACH: 'each';
 IN: 'in';
-BLIND: 'blind';
+BLIND: 'noiterator';
 
 // Definitions block
 DEFINE: 'define' ;

@@ -1,6 +1,15 @@
 output:println{2*3+5*6+8};
-//loop:for:blind 3 [
-//]
+define:float b as 5;
+loop:for:noiterator 2 [
+
+    define:string d as "ola";
+    output:print{d};
+    b = 2;
+
+]
+
+define:float c as 10;
+
 decide:if {4 < 4} [
     output:println{"ola"};
 ] decide:ifnot {6 > 5} [
@@ -13,5 +22,5 @@ decide:if {4 < 4} [
     output:println{14};
 ]
 
-define:int a as 2;
+define:int a as b*c+40;
 output:println{a};

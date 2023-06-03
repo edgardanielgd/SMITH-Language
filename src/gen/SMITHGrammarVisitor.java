@@ -59,17 +59,17 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitDefinestatement(SMITHGrammarParser.DefinestatementContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link SMITHGrammarParser#definedefaultvalue}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx);
-	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#defineextension}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDefineextension(SMITHGrammarParser.DefineextensionContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#definedefaultvalue}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#arrayextension}.
 	 * @param ctx the parse tree
@@ -94,12 +94,6 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctiondefextension(SMITHGrammarParser.FunctiondefextensionContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SMITHGrammarParser#assignationexp}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitAssignationexp(SMITHGrammarParser.AssignationexpContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#defineprefix}.
 	 * @param ctx the parse tree
@@ -238,6 +232,24 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctioncall(SMITHGrammarParser.FunctioncallContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#functioncallarguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctioncallarguments(SMITHGrammarParser.FunctioncallargumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#callarguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallarguments(SMITHGrammarParser.CallargumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#furthercallarguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFurthercallarguments(SMITHGrammarParser.FurthercallargumentsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#returnstatement}.
 	 * @param ctx the parse tree

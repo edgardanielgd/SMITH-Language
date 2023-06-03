@@ -1,5 +1,7 @@
 package src.utils;
 
+import src.utils.Expressions.Value;
+
 import javax.naming.Context;
 import java.util.HashMap;
 import java.util.Stack;
@@ -33,7 +35,11 @@ public class ContextManager {
     public Variable searchVariable(String _varName){
         // Searches for a variable defined in all contexts
         // cumulated in the stack, start from top to bottom
-        for( HashMap<String, Variable> context : this.stack ){
+
+        Stack<HashMap<String,Variable>> auxStack = (Stack<HashMap<String,Variable>>) this.stack.clone();
+
+        while( auxStack.size() > 0 ){
+            HashMap<String, Variable> context = auxStack.pop();
             if( context.containsKey(_varName) )
                 return context.get(_varName);
         }
@@ -62,5 +68,17 @@ public class ContextManager {
         return this.returnValue;
     }
 
-    // TODO: Add a method for slicing current block (for functions, in case we still want to do that crazy thing)
+    // We can slice the stack and get all definitions for this context, we must copy and join
+    // all hashmaps, each time a function is called we will create a copy of THIS context
+    // so things like recursion won't fail
+    public HashMap<String, Variable> resumeContext() {
+        HashMap<String, Variable> context = new HashMap<>();
+        for( HashMap<String, Variable> block : this.stack ){
+            for( String key : block.keySet() ){
+                // We are iterating from bottom to top, so we must check if
+                context.put(key, block.get(key));
+            }
+        }
+        return context;
+    }
 }

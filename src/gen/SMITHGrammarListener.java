@@ -88,16 +88,6 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitDefinestatement(SMITHGrammarParser.DefinestatementContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link SMITHGrammarParser#definedefaultvalue}.
-	 * @param ctx the parse tree
-	 */
-	void enterDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SMITHGrammarParser#definedefaultvalue}.
-	 * @param ctx the parse tree
-	 */
-	void exitDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx);
-	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#defineextension}.
 	 * @param ctx the parse tree
 	 */
@@ -107,6 +97,16 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitDefineextension(SMITHGrammarParser.DefineextensionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#definedefaultvalue}.
+	 * @param ctx the parse tree
+	 */
+	void enterDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#definedefaultvalue}.
+	 * @param ctx the parse tree
+	 */
+	void exitDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#arrayextension}.
 	 * @param ctx the parse tree
@@ -147,16 +147,6 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctiondefextension(SMITHGrammarParser.FunctiondefextensionContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SMITHGrammarParser#assignationexp}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignationexp(SMITHGrammarParser.AssignationexpContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SMITHGrammarParser#assignationexp}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignationexp(SMITHGrammarParser.AssignationexpContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#defineprefix}.
 	 * @param ctx the parse tree
@@ -387,6 +377,36 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctioncall(SMITHGrammarParser.FunctioncallContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#functioncallarguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctioncallarguments(SMITHGrammarParser.FunctioncallargumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#functioncallarguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctioncallarguments(SMITHGrammarParser.FunctioncallargumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#callarguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallarguments(SMITHGrammarParser.CallargumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#callarguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallarguments(SMITHGrammarParser.CallargumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#furthercallarguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterFurthercallarguments(SMITHGrammarParser.FurthercallargumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#furthercallarguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitFurthercallarguments(SMITHGrammarParser.FurthercallargumentsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#returnstatement}.
 	 * @param ctx the parse tree

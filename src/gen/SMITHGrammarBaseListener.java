@@ -113,18 +113,6 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterDefineextension(SMITHGrammarParser.DefineextensionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -132,6 +120,18 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitDefineextension(SMITHGrammarParser.DefineextensionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDefinedefaultvalue(SMITHGrammarParser.DefinedefaultvalueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -180,18 +180,6 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctiondefextension(SMITHGrammarParser.FunctiondefextensionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssignationexp(SMITHGrammarParser.AssignationexpContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssignationexp(SMITHGrammarParser.AssignationexpContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -468,6 +456,42 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitFunctioncall(SMITHGrammarParser.FunctioncallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFunctioncallarguments(SMITHGrammarParser.FunctioncallargumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFunctioncallarguments(SMITHGrammarParser.FunctioncallargumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCallarguments(SMITHGrammarParser.CallargumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCallarguments(SMITHGrammarParser.CallargumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFurthercallarguments(SMITHGrammarParser.FurthercallargumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFurthercallarguments(SMITHGrammarParser.FurthercallargumentsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
