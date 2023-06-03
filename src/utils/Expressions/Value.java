@@ -7,6 +7,8 @@ public class Value<T> {
 
     public T value;
     public int type;
+    public int subtype;
+    public int[] dimensions;
 
     public Value(T value, int type) {
         this.value = value;

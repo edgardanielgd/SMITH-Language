@@ -164,7 +164,7 @@ literal: BOOLEAN_LITERAL
       | functioncall
       ;
 
-functioncall: IDENTIFIER functionarguments
+functioncall: CALL COLON IDENTIFIER functioncallarguments
     ;
 
 functioncallarguments: OPEN_BRACE callarguments CLOSE_BRACE
@@ -236,6 +236,9 @@ IF: 'if' ;
 IFNOT: 'ifnot' ;
 DEFAULT: 'default';
 
+// Call block
+CALL: 'call' ;
+
 // Loop block
 LOOP: 'loop' ;
 
@@ -276,22 +279,6 @@ READCONSOLE: 'readconsole' ;
 
 // Assignations
 SET: 'set' ;
-
-// Probabilistic block
-PROB: 'prob' ;
-
-// Maybe if time allows it we will include gaussian cumulative distribution
-DUNIFORM: 'duniform' ;
-DPOISSON: 'dpoisson' ;
-DBERNOULLI: 'dbernoulli' ;
-DBINOMIAL: 'dbinomial' ;
-DGEOMETRIC: 'dgeometric' ;
-
-PUNIFORM: 'puniform' ;
-PPOISSON: 'ppoisson' ;
-PBERNOULLI: 'pbernoulli' ;
-PBINOMIAL: 'pbinomial' ;
-PGEOMETRIC: 'pgeometric' ;
 
 // Other reserved words
 RETURN: 'return' ;

@@ -21,8 +21,8 @@ public class ReturnStatement {
         Value value = Expression.evaluate(expression, context, parentVisitor);
 
         // Set return value
-        context.setReturnValue(value.value);
+        context.setReturnValue(value);
 
-        return 0;
+        return -1;
     }
 }

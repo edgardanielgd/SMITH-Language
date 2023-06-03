@@ -1,4 +1,7 @@
 package src.utils;
+
+import src.utils.Expressions.Value;
+
 // We will save each variable value and its information here
 public class Variable<T> {
 
@@ -13,21 +16,20 @@ public class Variable<T> {
     public static final int FUNCTION = 8;
     public static final int UNDEFINED = 9;
 
-    private T value;
-    private String name;
-    private int type;
+    public Value value;
+    public String name;
 
     // Default constructor (we don't have default value yet)
-    public Variable(String _name, int _type){
+    public Variable(String _name, Value _value){
         this.name = _name;
-        this.type = _type;
+        this.value = _value;
     }
 
     // Default setters & getters
-    public void setValue(T _value){
+    public void setValue(Value _value){
         this.value = _value;
     }
-    public T getValue(){
+    public Value getalue(){
         return this.value;
     }
     public void setName(String _name){
@@ -35,8 +37,5 @@ public class Variable<T> {
     }
     public String getName(){
         return this.name;
-    }
-    public int getType(){
-        return this.type;
     }
 }

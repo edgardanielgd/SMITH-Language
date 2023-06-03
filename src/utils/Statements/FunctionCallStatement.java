@@ -3,6 +3,7 @@ import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.ContextManager;
 import src.utils.Function;
+import src.utils.Variable;
 
 public class FunctionCallStatement {
 
@@ -17,22 +18,31 @@ public class FunctionCallStatement {
         String functionName = ctx.IDENTIFIER().getText();
 
         // Get function
-        Function function = (Function) context.searchVariable(functionName);
+        Variable functionVar = context.searchVariable(functionName);
 
         // Search function in context
-        if( function == null ){
+        if( functionVar == null ){
             // Function not found
             return 1;
         }
+
+        // Check if that var is a function
+        if( functionVar.value.type != Variable.FUNCTION ){
+            // This is not a function
+            return 1;
+        }
+
+        // Get actual function
+        Function function = (Function) functionVar.value.value;
 
         // Reset context return value
         context.setReturnValue(null);
 
         // Get function arguments
-        SMITHGrammarParser.FunctionargumentsContext arguments = ctx.functionarguments();
+        SMITHGrammarParser.FunctioncallargumentsContext arguments = ctx.functioncallarguments();
 
         // Call function
-        function.call(parentVisitor, context, arguments);
+        function.call(parentVisitor, context, arguments );
 
         return 0;
     }

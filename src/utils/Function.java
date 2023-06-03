@@ -1,11 +1,12 @@
 package src.utils;
 
 import src.gen.SMITHGrammarVisitor;
+import src.utils.Expressions.Value;
 import src.utils.Statements.*;
 import src.utils.ContextManager;
 import java.util.*;
 import src.gen.SMITHGrammarParser;
-public class Function<T> extends Variable {
+public class Function extends Value {
 
     int returnType; // Its a Variable type
 
@@ -24,9 +25,9 @@ public class Function<T> extends Variable {
     // Save a list of arguments this function is supossed to get
     private class FunctionArg {
         public String name;
-        public String type;
+        public int type;
 
-        public FunctionArg(String _name, String _type){
+        public FunctionArg(String _name, int _type){
             this.name = _name;
             this.type = _type;
         }
@@ -39,7 +40,7 @@ public class Function<T> extends Variable {
         int _returnType,
         SMITHGrammarParser.FunctionblockContext _ctx
     ){
-        super(_name, Variable.FUNCTION);
+        super(_name, Variable.FUNCTION );
         this.ctx = _ctx;
         this.returnType = _returnType;
 
@@ -48,15 +49,23 @@ public class Function<T> extends Variable {
         args = new ArrayList<>();
         SMITHGrammarParser.FunctionargumentsContext arguments = this.ctx.functionarguments();
         SMITHGrammarParser.ArgumentsContext argument = arguments.arguments();
+        SMITHGrammarParser.FurtherargumentsContext furtherarguments;
 
+        // Collect all of given arguments
         while( argument != null ){
             // While there are arguments, add them to list
+            String argName = argument.IDENTIFIER().getText();
+            SMITHGrammarParser.AtomictypeContext argType = argument.atomictype();
             args.add(
                 new FunctionArg(
-                    argument.IDENTIFIER().getText(),
-                    argument.type().getText()
+                    argName,
+                    ParseAtomicType.getVariableType(argType)
                 )
             );
+
+            // Advance in arguments list
+            furtherarguments = argument.furtherarguments();
+            argument = furtherarguments.arguments();
         }
 
     }
@@ -67,9 +76,12 @@ public class Function<T> extends Variable {
     }
 
     // Method for revisiting this function
-    public Object call(
+    // Returns status of the operation
+    // Result will be saved in given context
+    public int call(
             SMITHGrammarVisitor parentVisitor,
-            SMITHGrammarParser.FunctionargumentsContext arguments
+            ContextManager givenContext,
+            SMITHGrammarParser.FunctioncallargumentsContext callarguments
     ){
         // Handle function call
 
@@ -84,9 +96,44 @@ public class Function<T> extends Variable {
         // in this function call
         context.push();
 
-        // now define arguments in block
+        // now define arguments in block, also check if they
+        // match expected arguments
+        SMITHGrammarParser.CallargumentsContext callargument = callarguments.callarguments();
+        SMITHGrammarParser.FurthercallargumentsContext furthercallarguments;
+
+        // Iterator for arguments
+        int argIterator = 0;
+        while( callargument != null ){
+            Value evaluatedValue = Expression.evaluate(
+                    callargument.expression(),
+                    givenContext,
+                    parentVisitor
+            );
+
+            // Check if given value matches expected type
+            if( evaluatedValue.type != args.get(argIterator).type ){
+                // Type mismatch
+                return 1;
+            }
+
+            // Define argument in context
+            context.defineVariable(
+                    args.get(argIterator).name,
+                    new Variable(
+                            args.get(argIterator).name,
+                            evaluatedValue
+                    )
+            );
+
+            // Advance in arguments list
+            furthercallarguments = callargument.furthercallarguments();
+            callargument = furthercallarguments.callarguments();
+        }
+
+        // Now call function body
+
 
         context.pop();
-        return null;
+        return 0;
     }
 }

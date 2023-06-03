@@ -1,29 +1,13 @@
 package src.utils.Statements;
 import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
-import src.utils.ContextManager;
-import src.utils.Expression;
+import src.utils.*;
 import src.utils.Expressions.Value;
-import src.utils.Function;
-import src.utils.Variable;
 
 import java.util.HashMap;
 
 public class DefineStatement {
-    public static int getVariableType(SMITHGrammarParser.AtomictypeContext atomicType){
-        if( atomicType.INT() != null ){
-            return Variable.INT;
-        } else if( atomicType.FLOAT() != null ){
-            return Variable.FLOAT;
-        } else if( atomicType.STRING() != null ){
-            return Variable.STRING;
-        } else if( atomicType.BOOL() != null ){
-            return Variable.BOOLEAN;
-        } else {
-            // This should never happen
-            return Variable.UNDEFINED;
-        }
-    }
+
     public static int handle(
             ContextManager context,
             SMITHGrammarParser.DefinestatementContext ctx,
@@ -79,11 +63,8 @@ public class DefineStatement {
             // Now define this variable
             Variable newVariable = new Variable(
                     variableName,
-                    evaluatedValue.type
+                    evaluatedValue
             );
-
-            // Assignate value
-            newVariable.setValue(evaluatedValue.value);
 
             // Add variable to context
             context.defineVariable( variableName, newVariable);
@@ -100,7 +81,7 @@ public class DefineStatement {
             int returnType = Variable.UNDEFINED;
 
             if( atomicType != null )
-                returnType = getVariableType(atomicType);
+                returnType = ParseAtomicType.getVariableType(atomicType);
 
             // Function instances will save they own definition block
             SMITHGrammarParser.FunctionblockContext functionBlock =
@@ -119,11 +100,8 @@ public class DefineStatement {
             // Now define this variable
             Variable newVariable = new Variable(
                     variableName,
-                    Variable.FUNCTION
+                    newFunction
             );
-
-            // Assignate value
-            newVariable.setValue(newFunction);
 
             // Add variable to context
             context.defineVariable( variableName, newVariable);

@@ -18,7 +18,7 @@ public class ContextManager {
     int functionReturn = 0;
 
     // Returned value for last function
-    Object returnValue = null;
+    Value returnValue = null;
 
     public ContextManager(){
         this.stack = new Stack<HashMap<String,Variable>>();
@@ -60,7 +60,7 @@ public class ContextManager {
         return this.stack.pop();
     }
 
-    public void setReturnValue(Object _value){
+    public void setReturnValue(Value _value){
         this.returnValue = _value;
     }
 

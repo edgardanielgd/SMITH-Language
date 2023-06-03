@@ -72,11 +72,8 @@ public class LoopStatement {
                     // Define iterator variable
                     Variable variable = new Variable(
                             forExtension.IDENTIFIER().getText(),
-                            element.type
+                            element
                     );
-
-                    // Set value to iterator
-                    variable.setValue(element.value);
 
                     // Define variable
                     context.defineVariable(

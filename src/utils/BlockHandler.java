@@ -14,19 +14,27 @@ public class BlockHandler {
         // Push a new block into context
         context.push();
 
+        int status = 0;
+        System.out.println("BlockHandler");
+
         // Visit statements on parent, all recursion start from here
         SMITHGrammarParser.BlockContext currentStatement = ctx;
         while( currentStatement != null ) {
 
-            int status = Statement.handle(
+
+            status = Statement.handle(
                     context,
                     currentStatement,
                     parentVisitor
             );
 
+            if( status == -1 ){
+                break;
+            }
+
             if( status != 0 ){
                 // Something went wrong
-                return status;
+                break;
             }
 
             currentStatement = currentStatement.block();
@@ -34,7 +42,6 @@ public class BlockHandler {
 
         // Pop last remaining block after finishing all of these things
         context.pop();
-        return 0;
-
+        return status;
     }
 }

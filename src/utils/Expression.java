@@ -34,7 +34,7 @@ public class Expression {
                 return -1;
             } else {
                 // If variable exists
-                return variable.getType();
+                return variable.value.type;
             }
         }
         return -1;
@@ -60,10 +60,7 @@ public class Expression {
                 return null;
             } else {
                 // If variable exists
-                return new Value<>(
-                        variable.getValue(),
-                        variable.getType()
-                );
+                return variable.value;
             }
         } else {
             int literalType = getLiteralType(literal, context);
