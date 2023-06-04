@@ -1,2 +1,1 @@
-
-output:println{call:dBinom{10, 0, 0.5}};
+output:println{call:dNorm{10, 0, 0.5}};

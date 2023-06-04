@@ -37,30 +37,30 @@ public class BuiltInFunctions {
 
     private static final ArrayList<Class<?>[]> PARAMETERTYPES = new ArrayList<>(
             Arrays.asList(
-                    new Class<?>[]{int.class, int.class, float.class}, // dBinom
-                    new Class<?>[]{int.class, int.class, float.class}, // pBinom
-                    new Class<?>[]{int.class, int.class, float.class}, // qBinom
-                    new Class<?>[]{int.class, float.class}, // rBinom
-                    new Class<?>[]{int.class, float.class}, // dGeom
-                    new Class<?>[]{int.class, float.class}, // pGeom
-                    new Class<?>[]{int.class, float.class}, // qGeom
-                    new Class<?>[]{float.class}, // rGeom
-                    new Class<?>[]{int.class, float.class}, // dPois
-                    new Class<?>[]{int.class, float.class}, // pPois
-                    new Class<?>[]{int.class, float.class}, // qPois
-                    new Class<?>[]{float.class}, // rPois
-                    new Class<?>[]{float.class, float.class, float.class}, // dNorm
-                    new Class<?>[]{float.class, float.class, float.class}, // pNorm
-                    new Class<?>[]{float.class, float.class, float.class}, // qNorm
-                    new Class<?>[]{float.class, float.class}, // rNorm
-                    new Class<?>[]{float.class, float.class}, // dExp
-                    new Class<?>[]{float.class, float.class}, // pExp
-                    new Class<?>[]{float.class, float.class}, // qExp
-                    new Class<?>[]{float.class}, // rExp
-                    new Class<?>[]{float.class, float.class, float.class}, // dUnif
-                    new Class<?>[]{float.class, float.class, float.class}, // pUnif
-                    new Class<?>[]{float.class, float.class, float.class}, // qUnif
-                    new Class<?>[]{float.class, float.class} // rUnif
+                    new Class<?>[]{int.class, int.class, double.class}, // dBinom
+                    new Class<?>[]{int.class, int.class, double.class}, // pBinom
+                    new Class<?>[]{int.class, int.class, double.class}, // qBinom
+                    new Class<?>[]{int.class, double.class}, // rBinom
+                    new Class<?>[]{int.class, double.class}, // dGeom
+                    new Class<?>[]{int.class, double.class}, // pGeom
+                    new Class<?>[]{int.class, double.class}, // qGeom
+                    new Class<?>[]{double.class}, // rGeom
+                    new Class<?>[]{int.class, double.class}, // dPois
+                    new Class<?>[]{int.class, double.class}, // pPois
+                    new Class<?>[]{int.class, double.class}, // qPois
+                    new Class<?>[]{double.class}, // rPois
+                    new Class<?>[]{double.class, double.class, double.class}, // dNorm
+                    new Class<?>[]{double.class, double.class, double.class}, // pNorm
+                    new Class<?>[]{double.class, double.class, double.class}, // qNorm
+                    new Class<?>[]{double.class, double.class}, // rNorm
+                    new Class<?>[]{double.class, double.class}, // dExp
+                    new Class<?>[]{double.class, double.class}, // pExp
+                    new Class<?>[]{double.class, double.class}, // qExp
+                    new Class<?>[]{double.class}, // rExp
+                    new Class<?>[]{double.class, double.class, double.class}, // dUnif
+                    new Class<?>[]{double.class, double.class, double.class}, // pUnif
+                    new Class<?>[]{double.class, double.class, double.class}, // qUnif
+                    new Class<?>[]{double.class, double.class} // rUnif
                     )
     );
 
@@ -75,7 +75,7 @@ public class BuiltInFunctions {
         return false;
     }
 
-    public static int callBuiltInFunction(String name,
+    public static double callBuiltInFunction(String name,
                                            ContextManager context,
                                            SMITHGrammarParser.FunctioncallargumentsContext args) {
         name = name.toLowerCase();
@@ -103,7 +103,7 @@ public class BuiltInFunctions {
             argument = furtherarguments.callarguments();
         }
 
-        float result = 0;
+        double result = 0;
 
         // Get the index of the function
         int index = -1;
@@ -122,8 +122,8 @@ public class BuiltInFunctions {
             for (int i = 0; i < arguments.size(); i++) {
                 if (parameterTypes[i].equals(int.class)) {
                     if (arguments.get(i).type != Variable.INT) return -2;
-                } else if (parameterTypes[i].equals(float.class)) {
-                    if (arguments.get(i).type == Variable.FLOAT) return -2;
+                } else if (parameterTypes[i].equals(double.class)) {
+                    if (arguments.get(i).type != Variable.FLOAT) return -2;
                 }
             }
 
@@ -135,22 +135,24 @@ public class BuiltInFunctions {
             // Obtener la referencia al método
             Method method = pClass.getMethod(functionName, parameterTypes);
 
+            ArrayList<Object> argumentsNumber = new ArrayList<>();
+
+            for (Value v : arguments) {
+                argumentsNumber.add(v.value);
+            }
+
             // Invocar al método
-            Object r = method.invoke(null, arguments.toArray());
+            Object r = method.invoke(null, argumentsNumber.toArray());
 
             // Try to cast the result to float
-            result = (float) r;
+            result = (double) r;
+
+            System.out.println("Result: " + result);
         } catch (Exception e) {
+            System.out.println("Built-in function error");
             e.printStackTrace();
         }
 
-        context.setReturnValue(
-                        new Value<>(
-                                result,
-                                Variable.FLOAT
-                        )
-        );
-
-        return 0;
+        return result;
     }
 }

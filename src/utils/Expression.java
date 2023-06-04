@@ -71,8 +71,10 @@ public class Expression {
             // Handle built-in functions
             if (BuiltInFunctions.isBuiltInFunction(functionName)) {
                 // Call built-in function
-                BuiltInFunctions.callBuiltInFunction(functionName, context, functioncall.functioncallarguments());
-                return null;
+                return new Value(
+                        BuiltInFunctions.callBuiltInFunction(functionName, context, functioncall.functioncallarguments()),
+                        Variable.FLOAT
+                );
             }
 
             Variable var = context.searchVariable(functionName);
