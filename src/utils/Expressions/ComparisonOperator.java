@@ -1,6 +1,7 @@
 package src.utils.Expressions;
 
 import src.gen.SMITHGrammarParser;
+import src.utils.Error;
 import src.utils.Variable;
 
 public class ComparisonOperator {
@@ -20,8 +21,13 @@ public class ComparisonOperator {
                 rightMost.type == Variable.STRING
         );
 
-        if( !areValidOperands )
+        if( !areValidOperands ){
+            Error.throwError(
+                    "Invalid operands for comparison operator",
+                    ctx
+            );
             return null;
+        }
 
         boolean value;
 
@@ -43,8 +49,13 @@ public class ComparisonOperator {
         else if( ctx.NOT_EQUAL() != null )
             value = ((Comparable)leftMost.value).compareTo( rightMost.value ) != 0;
 
-        else
+        else {
+            Error.throwError(
+                    "Invalid comparison operator",
+                    ctx
+            );
             return null;
+        }
 
         return new Value<>( value, Variable.BOOLEAN );
     }

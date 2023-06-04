@@ -28,9 +28,12 @@ public class Statement {
             } else if( ctx.returnstatement() != null ){
                 // If it is a return statement
                 return ReturnStatement.handle(context, ctx.returnstatement(), parentVisitor);
-            } else if( ctx.loopblock() != null ){
+            } else if( ctx.loopblock() != null ) {
                 // If it is a loop block
                 return LoopStatement.handle(context, ctx.loopblock(), parentVisitor);
+            } else if( ctx.setstatement() != null ){
+                // If it is an assignation
+                return SetStatement.handle(context, ctx.setstatement(), parentVisitor);
             } else if( ctx.outputblock() != null ){
                 // If it is an output block
                 return OutputStatement.handle(context, ctx.outputblock(), parentVisitor);

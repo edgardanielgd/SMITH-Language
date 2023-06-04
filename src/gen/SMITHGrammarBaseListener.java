@@ -485,6 +485,42 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArrayitem(SMITHGrammarParser.ArrayitemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayitem(SMITHGrammarParser.ArrayitemContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayaccessor(SMITHGrammarParser.ArrayaccessorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayaccessor(SMITHGrammarParser.ArrayaccessorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFurtherarrayaccessor(SMITHGrammarParser.FurtherarrayaccessorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFurtherarrayaccessor(SMITHGrammarParser.FurtherarrayaccessorContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFunctioncall(SMITHGrammarParser.FunctioncallContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -540,6 +576,18 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitReturnstatement(SMITHGrammarParser.ReturnstatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSetstatement(SMITHGrammarParser.SetstatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSetstatement(SMITHGrammarParser.SetstatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -3,9 +3,14 @@ import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.BlockHandler;
 import src.utils.ContextManager;
+import src.utils.Error;
 import src.utils.Expression;
 import src.utils.Expressions.Value;
 import src.utils.Variable;
+
+import java.util.ArrayList;
+
+import static src.utils.Expressions.ParseType.typeToString;
 
 public class LoopStatement {
 
@@ -50,7 +55,8 @@ public class LoopStatement {
                 );
             }
 
-        } else if( loopExtension.FOR() != null ){
+        }
+        else if( loopExtension.FOR() != null ){
             // For loop
 
             // Specify for type
@@ -63,11 +69,18 @@ public class LoopStatement {
 
                 // EvaluatedExpression should be a list
                 if( evaluatedExpression.type != Variable.ARRAY ){
+                    Error.throwError(
+                            "Expected array in for each loop, got " +
+                            typeToString(evaluatedExpression.type) +
+                            " instead",
+                            ctx
+                    );
                     return 1;
                 }
 
                 // Now go through each element in array
-                for( Value element : (Value[]) evaluatedExpression.value ){
+                for( Value element : (ArrayList<Value>) evaluatedExpression.value ){
+
 
                     // Define iterator variable
                     Variable variable = new Variable(
@@ -87,35 +100,48 @@ public class LoopStatement {
                         return status;
                     }
                 }
-            } else if( forExtension.BLIND() != null ){
+                return 0;
+            }
+            if( forExtension.BLIND() != null ) {
                 // Iterate n times, no care about iterator
                 Value evaluatedExpression = Expression.evaluate(
                         forExtension.expression(), context, parentVisitor
                 );
 
                 // EvaluatedExpression should be an integer
-                if( evaluatedExpression.type != Variable.INT ){
+                if (evaluatedExpression.type != Variable.INT) {
+                    Error.throwError(
+                            "Expected integer in for blind loop, got " +
+                                    typeToString(evaluatedExpression.type) +
+                                    " instead",
+                            ctx
+                    );
                     return 1;
                 }
 
                 // Now iterate n times
-                for( int i = 0; i < (int) evaluatedExpression.value; i++ ){
+                for (int i = 0; i < (int) evaluatedExpression.value; i++) {
                     // Execute loop body
                     int status = BlockHandler.handle(statementBody.block(), context, parentVisitor);
-                    if( status != 0 ){
+                    if (status != 0) {
                         return status;
                     }
                 }
 
-            } else {
-                // This should never happen
-                return 1;
+                return 0;
             }
-        } else {
-            // This should never happen
+
+            Error.throwError(
+                    "Expected for each or for blind loop",
+                    ctx
+            );
             return 1;
         }
-
-        return 0;
+        // This should never happen
+        Error.throwError(
+                "Expected repeat or for loop",
+                ctx
+        );
+        return 1;
     }
 }

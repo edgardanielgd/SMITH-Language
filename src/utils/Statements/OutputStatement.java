@@ -1,13 +1,33 @@
 package src.utils.Statements;
+import org.knowm.xchart.SwingWrapper;
 import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.ContextManager;
+import src.utils.Error;
 import src.utils.Expression;
 import src.utils.Expressions.Value;
 import src.utils.Variable;
+import org.knowm.xchart.XYChart;
+import java.io.*;
+import java.util.ArrayList;
 
 public class OutputStatement {
 
+    public static String generatePrintable( Value toPrint ){
+        String printable = "";
+
+        if( toPrint.type == Variable.STRING ){
+            printable = (String) toPrint.value;
+        } else if ( toPrint.type == Variable.INT ) {
+            printable = Integer.toString((Integer) toPrint.value);
+        } else if ( toPrint.type == Variable.FLOAT ) {
+            printable = Double.toString((Double) toPrint.value);
+        } else if ( toPrint.type == Variable.BOOLEAN ) {
+            printable = Boolean.toString((Boolean) toPrint.value);
+        }
+
+        return printable;
+    }
     public static int handle(
             ContextManager context,
             SMITHGrammarParser.OutputblockContext ctx,
@@ -21,21 +41,11 @@ public class OutputStatement {
         if( extension.printtype() != null ){
             String type = extension.printtype().getText();
             // Get expression
-            SMITHGrammarParser.ExpressionContext expression = extension.expression();
+            SMITHGrammarParser.ExpressionContext expression = extension.expression(0);
             // Evaluate expression
             Value value = Expression.evaluate(expression, context, parentVisitor);
 
-            String printable = "";
-
-            if( value.type == Variable.STRING ){
-                printable = (String) value.value;
-            } else if ( value.type == Variable.INT ) {
-                printable = Integer.toString((Integer) value.value);
-            } else if ( value.type == Variable.FLOAT ) {
-                printable = Double.toString((Double) value.value);
-            } else if ( value.type == Variable.BOOLEAN ) {
-                printable = Boolean.toString((Boolean) value.value);
-            }
+            String printable = generatePrintable(value);
 
             if( type.equals("println") ){
                 // Print value
@@ -45,10 +55,127 @@ public class OutputStatement {
                 System.out.print(printable);
             } else {
                 // If it is an error
+                Error.throwError(
+                        "Error: Invalid print type",
+                        ctx
+                );
+                return 1;
+            }
+
+            return 0;
+        }
+
+        if( extension.PLOT() != null ){
+            // Generate a 2D plot of points
+            Value x = Expression.evaluate(extension.expression(0), context, parentVisitor);
+            Value y = Expression.evaluate(extension.expression(1), context, parentVisitor);
+
+            if( x == null || y == null ){
+                Error.throwError(
+                        "Error: Plot requires two arrays",
+                        ctx
+                );
+                return 1;
+            }
+
+            if( x.type != Variable.ARRAY || y.type != Variable.ARRAY ){
+                Error.throwError(
+                        "Error: Plot requires two arrays",
+                        ctx
+                );
+                return 1;
+            }
+
+            if(
+                (x.subtype != Variable.FLOAT && x.subtype != Variable.INT) ||
+                (x.subtype != Variable.FLOAT && y.subtype != Variable.INT)
+            ){
+                Error.throwError(
+                        "Error: Plot requires two arrays of numbers",
+                        ctx
+                );
+                return 1;
+            }
+
+            ArrayList<Value> xValues = (ArrayList<Value>) x.value;
+            ArrayList<Value> yValues = (ArrayList<Value>) y.value;
+
+            // Check if arrays have the same size
+            if( xValues.size() != yValues.size() ){
+                Error.throwError(
+                        "Error: Plot requires two arrays of the same size",
+                        ctx
+                );
+                return 1;
+            }
+
+            // Parse lists to arrays
+            double[] xArray = new double[xValues.size()];
+            double[] yArray = new double[yValues.size()];
+
+            for(int i = 0; i < xValues.size(); i++){
+                xArray[i] = (double)xValues.get(i).value;
+                yArray[i] = (double)yValues.get(i).value;
+            }
+
+            // Create chart
+            XYChart chart = new XYChart(500, 400);
+            chart.setTitle("Plot");
+            chart.setXAxisTitle("x");
+            chart.setYAxisTitle("y");
+
+            // Add series
+            chart.addSeries("Result", xArray, yArray);
+
+            // Show it
+            new SwingWrapper(chart).displayChart();
+
+            return 0;
+        }
+
+        if( extension.WRITEFILE() != null ){
+            Value output = Expression.evaluate(extension.expression(0), context, parentVisitor);
+            Value filename = Expression.evaluate(extension.expression(1), context, parentVisitor);
+
+            if( output == null || filename == null ){
+                Error.throwError(
+                        "Error: Writefile requires two valid arguments",
+                        ctx
+                );
+                return 1;
+            }
+
+            String printable = generatePrintable(output);
+
+            if( filename.type != Variable.STRING ){
+                Error.throwError(
+                        "Error: Writefile requires a string as filename",
+                        ctx
+                );
+                return 1;
+            }
+
+            // Write to file
+            try {
+                FileWriter myWriter = new FileWriter((String) filename.value);
+                myWriter.write(printable);
+                myWriter.close();
+
+                return 0;
+            } catch (java.io.IOException e) {
+                Error.throwError(
+                        "Error: Could not write to file",
+                        ctx
+                );
                 return 1;
             }
         }
 
-        return 0;
+        // If it is an error
+        Error.throwError(
+                "Error: Invalid output type",
+                ctx
+        );
+        return 1;
     }
 }

@@ -1,6 +1,7 @@
 package src.utils.Expressions;
 
 import src.gen.SMITHGrammarParser;
+import src.utils.Error;
 import src.utils.Variable;
 
 public class LogicalOperator {
@@ -8,7 +9,6 @@ public class LogicalOperator {
             Value leftMost, Value rightMost,
             SMITHGrammarParser.LogicaloperatorContext ctx
     ){
-        System.out.println( "STARTS");
         // Check first if we are able to perform operation
         // Note despite its title, we won't work with numbers all the time actually
         boolean areValidOperands = (
@@ -17,8 +17,13 @@ public class LogicalOperator {
                 rightMost.type == Variable.BOOLEAN
         );
 
-        if( !areValidOperands )
+        if( !areValidOperands ){
+            Error.throwError(
+                    "Invalid operands for logical operator",
+                    ctx
+            );
             return null;
+        }
 
         boolean value;
 
@@ -28,9 +33,13 @@ public class LogicalOperator {
         else if( ctx.OR() != null )
             value = (Boolean) leftMost.value || (Boolean) rightMost.value;
 
-        else
+        else{
+            Error.throwError(
+                    "Invalid logical operator",
+                    ctx
+            );
             return null;
-        System.out.println( "LOGICAL OPERATOR");
+        }
         return new Value<>( value, Variable.BOOLEAN );
 
     }

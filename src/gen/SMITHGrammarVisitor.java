@@ -245,6 +245,24 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitLiteral(SMITHGrammarParser.LiteralContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#arrayitem}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayitem(SMITHGrammarParser.ArrayitemContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#arrayaccessor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayaccessor(SMITHGrammarParser.ArrayaccessorContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#furtherarrayaccessor}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFurtherarrayaccessor(SMITHGrammarParser.FurtherarrayaccessorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#functioncall}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -274,6 +292,12 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReturnstatement(SMITHGrammarParser.ReturnstatementContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#setstatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSetstatement(SMITHGrammarParser.SetstatementContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#block}.
 	 * @param ctx the parse tree

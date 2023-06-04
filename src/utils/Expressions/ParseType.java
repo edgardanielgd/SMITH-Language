@@ -103,5 +103,20 @@ public class ParseType {
         } else if( toParse.type == Variable.BOOLEAN ){
             return true;
         }
-        return false; }
+        return false;
+    }
+
+    public static String typeToString( int type ){
+        switch( type ){
+            case Variable.INT:
+                return "int";
+            case Variable.FLOAT:
+                return "float";
+            case Variable.STRING:
+                return "string";
+            case Variable.BOOLEAN:
+                return "boolean";
+        }
+        return "unknown";
+    }
 }

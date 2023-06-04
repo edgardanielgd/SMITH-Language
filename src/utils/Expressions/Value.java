@@ -19,4 +19,8 @@ public class Value<T> {
         this.type = _type;
         this.subtype = _subtype;
     }
+
+    public T getValue() {
+        return this.value;
+    }
 }

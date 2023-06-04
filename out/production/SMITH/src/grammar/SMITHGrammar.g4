@@ -35,6 +35,7 @@ arrayelements: expression furtherarrayelements
     ;
 
 furtherarrayelements: COMMA arrayelements
+    | DOT DOT expression // Shorthand arrays
     | // We can pass more elements or not
     ;
 
@@ -46,6 +47,7 @@ decisionextension: decideprefix IFNOT conditional statementbody decisionextensio
     | decideprefix DEFAULT statementbody
     | // Not even necessary
     ;
+
 decideprefix: DECIDE COLON
     ;
 
@@ -109,6 +111,8 @@ outputprefix: OUTPUT COLON
     ;
 
 outputextension: printtype OPEN_BRACE expression CLOSE_BRACE SEMICOLON
+    | PLOT OPEN_BRACE expression COMMA expression CLOSE_BRACE SEMICOLON
+    | WRITEFILE OPEN_BRACE expression COMMA expression CLOSE_BRACE SEMICOLON
     ;
 
 printtype: PRINT | PRINTLN
@@ -141,6 +145,8 @@ furtherarguments : COMMA arguments
 // Expression
 expression: literal
     | MINUS expression
+    | atomictype OPEN_BRACE expression CLOSE_BRACE
+    | expression TILDE expression
     | expression TIMES expression
     | expression DIVIDE expression
     | expression MOD expression
@@ -154,6 +160,8 @@ expression: literal
 // - Expression without comparison operators
 expressionnc: literal
     | MINUS expressionnc
+    | atomictype OPEN_BRACE expression CLOSE_BRACE
+    | expressionnc TILDE expressionnc
     | expressionnc TIMES expressionnc
     | expressionnc DIVIDE expressionnc
     | expressionnc MOD expressionnc
@@ -171,11 +179,22 @@ comparisonoperator: LESS | GREATER | LESS_EQUAL | GREATER_EQUAL | EQUAL_EQUAL | 
 
 literal: BOOLEAN_LITERAL
       | STRING_LITERAL
-      | IDENTIFIER
+      | IDENTIFIER arrayitem
       | numberliteral
       | functioncall
       | arrayliteral
       ;
+
+arrayitem : OPEN_BRACKET arrayaccessor CLOSE_BRACKET
+    | // Not even necessary, we can access an array without an index
+    ;
+
+arrayaccessor: expression furtherarrayaccessor
+    ;
+
+furtherarrayaccessor: COMMA arrayaccessor
+    | // We can access more elements or not
+    ;
 
 functioncall: CALL COLON IDENTIFIER functioncallarguments
     ;
@@ -195,6 +214,10 @@ furthercallarguments: COMMA callarguments
 returnstatement: RETURN expression SEMICOLON
     ;
 
+// Set statement
+setstatement: SET IDENTIFIER ASSIGN expression SEMICOLON
+    ;
+
 // Block
 block: decideblock block
     | loopblock block
@@ -202,6 +225,7 @@ block: decideblock block
     | functioncall SEMICOLON block
     | returnstatement block
     | outputblock block
+    | setstatement block
     | // Block can be empty
     ;
 
@@ -209,6 +233,7 @@ block: decideblock block
 COLON: ':' ;
 SEMICOLON: ';' ;
 COMMA: ',' ;
+TILDE: '~' ;
 DOT: '.' ;
 EQUAL: '=' ;
 PLUS: '+' ;
@@ -237,64 +262,64 @@ CLOSE_BRACE: '}' ;
 INTEGER_LITERAL: [0-9]+ ;
 FLOAT_LITERAL: [0-9]+ '.' [0-9]+ ;
 STRING_LITERAL: '"' ( '\\' . | ~('\\'|'"') )* '"' ;
-BOOLEAN_LITERAL: 'true' | 'false' ;
+BOOLEAN_LITERAL: 'true' | 'false' | 'verdadero' | 'falso' ;
 
 //
 // Reserved words
 //
 
 // Decide block
-DECIDE: 'decide';
-IF: 'if' ;
-IFNOT: 'ifnot' ;
-DEFAULT: 'default';
+DECIDE: 'decide' | 'decidir';
+IF: 'if' | 'si' ;
+IFNOT: 'ifnot' | 'sino' ;
+DEFAULT: 'default' | 'pordefecto';
 
 // Call block
-CALL: 'call' ;
+CALL: 'call' | 'invocar' ;
 
 // Loop block
-LOOP: 'loop' ;
+LOOP: 'loop' | 'ciclo';
 
 // - Repeat substatement
-REPEAT: 'repeat' ;
-UNTIL: 'until';
-WHILE: 'while';
+REPEAT: 'repeat' | 'repetir';
+UNTIL: 'until' | 'hasta';
+WHILE: 'while' | 'mientras';
 
 // - ForEach substatement
-FOR: 'for';
-EACH: 'each';
-IN: 'in';
-BLIND: 'noiterator';
+FOR: 'for' | 'para';
+EACH: 'each' | 'cada';
+IN: 'in' | 'en';
+BLIND: 'noiterator' | 'siniterador';
 
 // Definitions block
-DEFINE: 'define' ;
-INT: 'int' ;
-FLOAT: 'float' ;
-ARRAY: 'array' ;
+DEFINE: 'define' | 'definir' ;
+INT: 'int' | 'entero';
+FLOAT: 'float' | 'decimal' ;
+ARRAY: 'array' | 'arreglo' ;
 // - Join Flaot with int
 NUMBER: INT | FLOAT;
-STRING: 'string' ;
-BOOL: 'bool' ;
-FUNCTION: 'function' ;
-TYPE: 'type' ; // Useful when defining parameters
+STRING: 'string' | 'cadena' ;
+BOOL: 'bool' | 'booleano' ;
+FUNCTION: 'function' | 'funcion' ;
+TYPE: 'type' | 'tipo' ; // Useful when defining parameters
 
 // Outputs block
-OUTPUT: 'output' ;
-PRINT: 'print' ;
-PRINTLN: 'println' ;
-WRITEFILE: 'writefile' ;
-PLOT: 'plot' ;
+OUTPUT: 'output' | 'salida' ;
+PRINT: 'print' | 'imprimir';
+PRINTLN: 'println' | 'imprimirl' ;
+WRITEFILE: 'writefile' | 'escribirarchivo' ;
+PLOT: 'plot' | 'graficar' ;
 
 // Inputs block
-INPUT: 'input' ;
-READFILE: 'readfile' ;
-READCONSOLE: 'readconsole' ;
+INPUT: 'input' | 'entrada' ;
+READFILE: 'readfile' | 'leerarchivo' ;
+READCONSOLE: 'readconsole' | 'leerconsola' ;
 
 // Assignations
-SET: 'set' ;
+SET: 'set' | 'asignar' ;
 
 // Other reserved words
-RETURN: 'return' ;
+RETURN: 'return' | 'regresar' ;
 
 // Identifiers
 IDENTIFIER: [a-zA-Z][a-zA-Z0-9_]* ;
@@ -306,5 +331,3 @@ COMMENT: '//' ~[\r\n]* -> skip ; // skip comments
 A : 'a' | 'A' ;
 S: 's' | 'S' ;
 // ... (if needed :) )
-
-

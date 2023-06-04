@@ -48,6 +48,13 @@ public class ContextManager {
         return null;
     }
 
+    public Variable searchVariableCurrentBlock(String _varName ){
+            // Searches for a variable defined in the current context block
+        // (the one at the top of the stack)
+        if( this.stack.peek().containsKey(_varName) )
+            return this.stack.peek().get(_varName);
+        return null;
+    }
     public HashMap<String,Variable> push(){
         // Adds a new Context, this is called when a new block of code
         // is reached

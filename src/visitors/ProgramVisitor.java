@@ -13,8 +13,8 @@ public class ProgramVisitor {
             SMITHGrammarParser.ProgramContext ctx
     ) {
         System.out.println("SMITH (Structured Maths Interface and Transformation Hyperproccesor");
-        System.out.println("Edgar Daniel Gonzalez Diaz");
         System.out.println("Jhonatan Steven Rodriguez Ibañez");
+        System.out.println("Miguel Angel Puentes Cespedes");
         System.out.println("Edgar Daniel Gonzalez Diaz");
 
         // Initialize global context manager
@@ -27,5 +27,7 @@ public class ProgramVisitor {
                 context,
                 parentVisitor
         );
+
+        System.out.println("[SMITH] Program finished successfully");
     }
 }

@@ -2,6 +2,7 @@ package src.utils.Statements;
 import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.*;
+import src.utils.Error;
 import src.utils.Expressions.Value;
 
 public class DecideStatement {

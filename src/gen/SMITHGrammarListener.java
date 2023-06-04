@@ -398,6 +398,36 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitLiteral(SMITHGrammarParser.LiteralContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#arrayitem}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayitem(SMITHGrammarParser.ArrayitemContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#arrayitem}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayitem(SMITHGrammarParser.ArrayitemContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#arrayaccessor}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayaccessor(SMITHGrammarParser.ArrayaccessorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#arrayaccessor}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayaccessor(SMITHGrammarParser.ArrayaccessorContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#furtherarrayaccessor}.
+	 * @param ctx the parse tree
+	 */
+	void enterFurtherarrayaccessor(SMITHGrammarParser.FurtherarrayaccessorContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#furtherarrayaccessor}.
+	 * @param ctx the parse tree
+	 */
+	void exitFurtherarrayaccessor(SMITHGrammarParser.FurtherarrayaccessorContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#functioncall}.
 	 * @param ctx the parse tree
 	 */
@@ -447,6 +477,16 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitReturnstatement(SMITHGrammarParser.ReturnstatementContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#setstatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterSetstatement(SMITHGrammarParser.SetstatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#setstatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitSetstatement(SMITHGrammarParser.SetstatementContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#block}.
 	 * @param ctx the parse tree

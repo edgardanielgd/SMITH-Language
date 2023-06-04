@@ -2,6 +2,7 @@ package src.utils.Statements;
 import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.*;
+import src.utils.Error;
 import src.utils.Expressions.Value;
 
 import java.util.ArrayList;
@@ -41,21 +42,22 @@ public class DefineStatement {
                         parentVisitor
                 );
 
+
+
                 // Check if given value matches type defined
                 if( evaluatedValue == null ){
                     // Error evaluating expression
                     return 1;
                 }
 
+                if( evaluatedValue.type == Variable.ARRAY ){
+                    if( evaluatedValue.subtype != variableType){
+                        return 4;
+                    }
+                } else
                 if( evaluatedValue.type != variableType ){
                     // Type mismatch
                     return 3;
-                } else if(
-                        evaluatedValue.type == Variable.ARRAY &&
-                        evaluatedValue.subtype != variableType
-                ){
-                    // Subtype mismatch
-                    return 4;
                 }
             }
             else {
@@ -79,8 +81,13 @@ public class DefineStatement {
             }
 
             // Check if variable is already defined
-            if( context.searchVariable( variableName ) != null )
-                return 2; // Variable already defined (error
+            if( context.searchVariableCurrentBlock( variableName ) != null ){
+                Error.throwError(
+                        "Variable " + variableName + " already defined in this block",
+                        ctx
+                        );
+                return 2; // Variable already defined (error)
+            }
 
             // Now define this variable
             Variable newVariable = new Variable(
@@ -116,8 +123,13 @@ public class DefineStatement {
             );
 
             // Check if variable is already defined
-            if( context.searchVariable( variableName ) != null )
-                return 2; // Variable already defined (error
+            if( context.searchVariableCurrentBlock( variableName ) != null ){
+                Error.throwError(
+                        "Variable " + variableName + " already defined in this block",
+                        ctx
+                );
+                return 2; // Variable already defined (error)
+            }
 
             // Now define this variable
             Variable newVariable = new Variable(

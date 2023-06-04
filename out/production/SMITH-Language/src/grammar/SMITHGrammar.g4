@@ -38,15 +38,15 @@ decideprefix: DECIDE COLON
     ;
 
 // Define statement
-definestatement: defineprefix defineextension IDENTIFIER definedefaultvalue SEMICOLON
+definestatement: defineprefix defineextension SEMICOLON
     ;
 
-definedefaultvalue: ASSIGN assignationexp
+defineextension: atomictype arrayextension IDENTIFIER definedefaultvalue
+    | FUNCTION functiondefextension IDENTIFIER ASSIGN functionblock
+    ;
+
+definedefaultvalue: ASSIGN expression
     | // Not even necessary, we can calculate a default value easily
-    ;
-
-defineextension: atomictype arrayextension
-    | FUNCTION functiondefextension
     ;
 
 arrayextension: OPEN_BRACKET dimensions CLOSE_BRACKET
@@ -62,10 +62,6 @@ furtherdimensions: COMMA dimensions
 
 functiondefextension : COLON atomictype
     | // Not even necessary
-    ;
-
-assignationexp : expression
-    | functionblock
     ;
 
 defineprefix: DEFINE COLON
@@ -93,6 +89,19 @@ rangeextension: COLON expression // Range offset
     | // We can pass an offset or not
     ;
 
+// Output statement
+outputblock: outputprefix outputextension
+    ;
+
+outputprefix: OUTPUT COLON
+    ;
+
+outputextension: printtype OPEN_BRACE expression CLOSE_BRACE SEMICOLON
+    ;
+
+printtype: PRINT | PRINTLN
+    ;
+
 // Statements block / oneline expression
 statementbody: OPEN_BRACKET block CLOSE_BRACKET
     | expression SEMICOLON
@@ -109,7 +118,7 @@ functionblock: functionarguments statementbody
 functionarguments: OPEN_BRACE arguments CLOSE_BRACE
     ;
 
-arguments : atomictype IDENTIFIER furtherarguments
+arguments : atomictype COLON IDENTIFIER furtherarguments
     | // Maybe we wouldn't like to pass arguments
     ;
 
@@ -118,28 +127,28 @@ furtherarguments : COMMA arguments
     ;
 
 // Expression
-expression: literal expressionextension
-    | OPEN_PAREN expression CLOSE_PAREN expressionextension
-    ;
-
-expressionextension: aritmeticoperator expression
-    | logicaloperator expression
-    | comparisonoperator expressionnc
-    | // Not even necessary
+expression: literal
+    | MINUS expression
+    | expression TIMES expression
+    | expression DIVIDE expression
+    | expression MOD expression
+    | expression PLUS expression
+    | expression MINUS expression
+    | expression logicaloperator expression
+    | expressionnc comparisonoperator expressionnc
+    | OPEN_PAREN expression CLOSE_PAREN
     ;
 
 // - Expression without comparison operators
-expressionnc: literal expressionncextension
-    | OPEN_PAREN expression CLOSE_PAREN expressionncextension
-    ;
-
-// Note we removed here the comparison operators
-expressionncextension: aritmeticoperator expressionnc
-    | logicaloperator expressionnc
-    | // Not even necessary
-    ;
-
-aritmeticoperator: PLUS | MINUS | TIMES | DIVIDE | MOD
+expressionnc: literal
+    | MINUS expressionnc
+    | expressionnc TIMES expressionnc
+    | expressionnc DIVIDE expressionnc
+    | expressionnc MOD expressionnc
+    | expressionnc PLUS expressionnc
+    | expressionnc MINUS expressionnc
+    | expressionnc logicaloperator expression
+    | OPEN_PAREN expression CLOSE_PAREN
     ;
 
 logicaloperator: AND | OR
@@ -155,7 +164,18 @@ literal: BOOLEAN_LITERAL
       | functioncall
       ;
 
-functioncall: IDENTIFIER functionarguments
+functioncall: CALL COLON IDENTIFIER functioncallarguments
+    ;
+
+functioncallarguments: OPEN_BRACE callarguments CLOSE_BRACE
+    ;
+
+callarguments: expression furthercallarguments
+    | // We can pass arguments or not
+    ;
+
+furthercallarguments: COMMA callarguments
+    | // We can pass more arguments or not
     ;
 
 // Return statement
@@ -168,6 +188,7 @@ block: decideblock block
     | definestatement block
     | functioncall SEMICOLON block
     | returnstatement block
+    | outputblock block
     | // Block can be empty
     ;
 
@@ -215,6 +236,9 @@ IF: 'if' ;
 IFNOT: 'ifnot' ;
 DEFAULT: 'default';
 
+// Call block
+CALL: 'call' ;
+
 // Loop block
 LOOP: 'loop' ;
 
@@ -227,7 +251,7 @@ WHILE: 'while';
 FOR: 'for';
 EACH: 'each';
 IN: 'in';
-BLIND: 'blind';
+BLIND: 'noiterator';
 
 // Definitions block
 DEFINE: 'define' ;
@@ -246,6 +270,7 @@ OUTPUT: 'output' ;
 PRINT: 'print' ;
 PRINTLN: 'println' ;
 WRITEFILE: 'writefile' ;
+PLOT: 'plot' ;
 
 // Inputs block
 INPUT: 'input' ;
@@ -254,22 +279,6 @@ READCONSOLE: 'readconsole' ;
 
 // Assignations
 SET: 'set' ;
-
-// Probabilistic block
-PROB: 'prob' ;
-
-// Maybe if time allows it we will include gaussian cumulative distribution
-DUNIFORM: 'duniform' ;
-DPOISSON: 'dpoisson' ;
-DBERNOULLI: 'dbernoulli' ;
-DBINOMIAL: 'dbinomial' ;
-DGEOMETRIC: 'dgeometric' ;
-
-PUNIFORM: 'puniform' ;
-PPOISSON: 'ppoisson' ;
-PBERNOULLI: 'pbernoulli' ;
-PBINOMIAL: 'pbinomial' ;
-PGEOMETRIC: 'pgeometric' ;
 
 // Other reserved words
 RETURN: 'return' ;

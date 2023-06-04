@@ -6,7 +6,13 @@ import src.utils.Statements.*;
 import src.utils.ContextManager;
 import java.util.*;
 import src.gen.SMITHGrammarParser;
+
+import static src.utils.Expressions.ParseType.typeToString;
+
 public class Function extends Value {
+
+    // Save function name for cooler prompts
+    public String name;
 
     int returnType; // Its a Variable type
 
@@ -40,7 +46,8 @@ public class Function extends Value {
         int _returnType,
         SMITHGrammarParser.FunctionblockContext _ctx
     ){
-        super(_name, Variable.FUNCTION );
+        super(null, Variable.FUNCTION );
+        this.name = _name;
         this.ctx = _ctx;
         this.returnType = _returnType;
 
@@ -108,6 +115,11 @@ public class Function extends Value {
             // Check if we got more params than the expected length
             if( argIterator >= args.size() ){
                 // We got more params than expected
+                Error.throwError(
+                        this.name + " expects " + args.size() + " arguments but " +
+                                (argIterator + 1) + " were given",
+                        callarguments
+                );
                 return 1;
             }
 
@@ -120,6 +132,14 @@ public class Function extends Value {
             // Check if given value matches expected type
             if( evaluatedValue.type != args.get(argIterator).type ) {
                 // Type mismatch
+                Error.throwError(
+                        this.name + " expects an" +
+                                typeToString( args.get(argIterator).type ) +
+                                " as argument " + ( argIterator + 1) +
+                                " but " + typeToString( evaluatedValue.type ) +
+                                " was given",
+                        callargument
+                );
                 return 1;
             }
 
@@ -153,6 +173,14 @@ public class Function extends Value {
             // Check if it matches expected type
             if( context.returnValue.type != this.returnType ){
                 // Type mismatch
+                Error.throwError(
+                        this.name + " expects a" +
+                                typeToString( this.returnType ) +
+                                " as return value but " +
+                                typeToString( context.returnValue.type ) +
+                                " was given",
+                        this.ctx
+                );
                 return 1;
             }
 
