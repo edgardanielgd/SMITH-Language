@@ -1,1 +1,2 @@
-define:int ola;
+
+output:println{call:dBinom{10, 0, 0.5}};

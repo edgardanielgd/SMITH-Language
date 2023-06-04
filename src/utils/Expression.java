@@ -6,6 +6,7 @@ import src.gen.SMITHGrammarVisitor;
 import src.utils.Expressions.*;
 import src.utils.Expressions.AritmeticOperator;
 import src.utils.Variable;
+import src.utils.BuiltInFunctions;
 
 public class Expression {
     public static int getLiteralType(
@@ -66,6 +67,13 @@ public class Expression {
             SMITHGrammarParser.FunctioncallContext functioncall = literal.functioncall();
             // Get function name
             String functionName = functioncall.IDENTIFIER().getText();
+
+            // Handle built-in functions
+            if (BuiltInFunctions.isBuiltInFunction(functionName)) {
+                // Call built-in function
+                BuiltInFunctions.callBuiltInFunction(functionName, context, functioncall.functioncallarguments());
+                return null;
+            }
 
             Variable var = context.searchVariable(functionName);
             if( var == null ){

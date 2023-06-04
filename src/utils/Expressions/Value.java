@@ -14,4 +14,8 @@ public class Value<T> {
         this.value = value;
         this.type = type;
     }
+
+    public T getValue() {
+        return this.value;
+    }
 }

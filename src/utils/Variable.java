@@ -29,7 +29,7 @@ public class Variable<T> {
     public void setValue(Value _value){
         this.value = _value;
     }
-    public Value getalue(){
+    public Value getValue(){
         return this.value;
     }
     public void setName(String _name){
