@@ -3,7 +3,9 @@ import src.gen.SMITHGrammarParser;
 import src.gen.SMITHGrammarVisitor;
 import src.utils.*;
 import src.utils.Error;
+import src.utils.Expressions.ParseType;
 import src.utils.Expressions.Value;
+import src.utils.Expressions.ParseType.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,21 +44,36 @@ public class DefineStatement {
                         parentVisitor
                 );
 
-
-
                 // Check if given value matches type defined
                 if( evaluatedValue == null ){
                     // Error evaluating expression
+                    Error.throwError(
+                            "Error evaluating expression",
+                            ctx
+                    );
                     return 1;
                 }
 
                 if( evaluatedValue.type == Variable.ARRAY ){
                     if( evaluatedValue.subtype != variableType){
+                        // Type mismatch
+                        Error.throwError(
+                                "Given array type " + ParseType.typeToString(evaluatedValue.subtype) +
+                                        "doesn't match variable type " +
+                                        ParseType.typeToString(variableType),
+                                ctx
+                        );
                         return 4;
                     }
                 } else
                 if( evaluatedValue.type != variableType ){
                     // Type mismatch
+                    Error.throwError(
+                            "Given type " + ParseType.typeToString(evaluatedValue.type) +
+                                "doesn't match variable type " +
+                                ParseType.typeToString(variableType),
+                            ctx
+                    );
                     return 3;
                 }
             }
@@ -76,6 +93,10 @@ public class DefineStatement {
                     evaluatedValue = new Value( new ArrayList<>(), Variable.ARRAY, variableType );
                 } else {
                     // This should never happen
+                    Error.throwError(
+                            "Unknown type",
+                            ctx
+                    );
                     return 1;
                 }
             }

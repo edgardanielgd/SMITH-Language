@@ -24,6 +24,15 @@ public class OutputStatement {
             printable = Double.toString((Double) toPrint.value);
         } else if ( toPrint.type == Variable.BOOLEAN ) {
             printable = Boolean.toString((Boolean) toPrint.value);
+        } else if( toPrint.type == Variable.ARRAY ){
+            printable += "[";
+            ArrayList<Value> array = (ArrayList<Value>) toPrint.value;
+            for( int i = 0; i < array.size(); i++ ){
+                printable += generatePrintable(array.get(i));
+                if( i != array.size() - 1 )
+                    printable += ", ";
+            }
+            printable += "]";
         }
 
         return printable;

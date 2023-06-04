@@ -257,7 +257,7 @@ public class AritmeticOperator {
     ) {
         if(
                 leftMost.type == Variable.ARRAY ||
-                        rightMost.type == Variable.ARRAY
+                rightMost.type == Variable.ARRAY
         ) {
             // Sum arrays by summing each element
 
@@ -304,7 +304,7 @@ public class AritmeticOperator {
             ArrayList<Value> result = new ArrayList<>();
 
             for (int i = 0; i < leftArray.size(); i++) {
-                Value sum = sum(
+                Value sum = difference(
                         leftIsArray ? leftArray.get(i) : leftMost,
                         rightIsArray ? rightArray.get(i) : rightMost,
                         ctx
