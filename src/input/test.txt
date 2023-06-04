@@ -1,7 +1,7 @@
 define:int a as [1,2,3];
-
+define: int c as "f";
 define:int b as 4;
-set a as (a ~ b)+b;
+set a as (a ~ b)+c;
 loop:for:each { item in a } [
     output:println{ item };
 ]

@@ -12,8 +12,8 @@ public class ProgramVisitor {
             SMITHGrammarVisitor parentVisitor,
             SMITHGrammarParser.ProgramContext ctx
     ) {
-        System.out.println("SMITH (Structured Maths Interface and Transformation Hyperproccesor");
-        System.out.println("Jhonatan Steven Rodriguez Ibañez");
+        System.out.println("SMITH (Simple Mathematical Interpreter for Technical Handling");
+        System.out.println("Jhonatan Steven Rodriguez IbaÃ±ez");
         System.out.println("Miguel Angel Puentes Cespedes");
         System.out.println("Edgar Daniel Gonzalez Diaz");
 
