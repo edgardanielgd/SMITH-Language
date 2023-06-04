@@ -1,7 +1,15 @@
 define:int a as [1,2,3];
-define:int b as [1,2,3];
-define:int c as 5;
-define:int d as 7;
-define:int e as int{ c*d/2 };
+define: int c as "f";
+define:int b as 4;
+set a as (a ~ b)+c;
+loop:for:each { item in a } [
+    output:println{ item };
+]
 
-output:println{ e };
+output:println{ "----------------" };
+
+define:string c as ["ola","de","mar"];
+set c as c ~ "jiji" + " jaja";
+loop:for:each { item in c } [
+    output:println{ item };
+]
