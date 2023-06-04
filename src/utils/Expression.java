@@ -7,6 +7,8 @@ import src.utils.Expressions.*;
 import src.utils.Expressions.AritmeticOperator;
 import src.utils.Variable;
 
+import java.util.ArrayList;
+
 public class Expression {
     public static int getLiteralType(
             SMITHGrammarParser.LiteralContext ctx,
@@ -61,21 +63,22 @@ public class Expression {
                 // If variable exists
                 return variable.value;
             }
-        } else if( literal.functioncall() != null ){
+        }
+        else if( literal.functioncall() != null ) {
 
             SMITHGrammarParser.FunctioncallContext functioncall = literal.functioncall();
             // Get function name
             String functionName = functioncall.IDENTIFIER().getText();
 
             Variable var = context.searchVariable(functionName);
-            if( var == null ){
+            if (var == null) {
                 // Function not found
                 return null;
             }
 
             // Check if that var is a function
             Value varValue = var.value;
-            if( varValue.type != Variable.FUNCTION ){
+            if (varValue.type != Variable.FUNCTION) {
                 // This is not a function
                 return null;
             }
@@ -95,10 +98,71 @@ public class Expression {
 
             // Reset context return value
             context.setReturnValue(null);
-            System.out.println("pasa");
 
             return toReturn;
-        } else {
+        }
+        else if( literal.arrayliteral() != null ){
+            // Evaluate array literal
+
+            SMITHGrammarParser.ArrayelementsContext arrayElements = literal.arrayliteral().arrayelements();
+
+            // Arrays will be represented as array lists containing values
+            ArrayList<Value> values = new ArrayList<>();
+
+            // We will check they type of the array on the way, like a pro :D
+            int elementsType = Variable.UNDEFINED;
+
+            while( arrayElements != null && arrayElements.getChildCount() > 0){
+                // Get value
+                Value value = evaluate(
+                        arrayElements.expression(),
+                        context,
+                        null
+                );
+
+                if( value == null )
+                    return null;
+
+                // Check if type corresponds with given type
+                if( elementsType == Variable.UNDEFINED ) {
+                    // Check if this is an array
+                    if( value.type == Variable.ARRAY )
+                        elementsType = value.subtype;
+                    else
+                        elementsType = value.type;
+                } else if( value.type == Variable.ARRAY){
+                    // Check if this is an array
+                    if( elementsType != value.subtype ){
+                        // Type mismatch (Not all array elements are of the same type)
+                        return null;
+                    }
+                } else if( elementsType != value.type ){
+                    // Type mismatch (Not all array elements are of the same type)
+                    return null;
+                }
+
+                // Add value to array
+                values.add(value);
+
+                // Get next element
+                SMITHGrammarParser.FurtherarrayelementsContext furtherArrayElements =
+                        arrayElements.furtherarrayelements();
+
+                if( furtherArrayElements != null && furtherArrayElements.getChildCount() > 0)
+                    arrayElements = furtherArrayElements.arrayelements();
+                else
+                    break;
+            }
+
+            // We have an array of elements, now we need to create an array (as a Value)
+            // and return it
+            return new Value<>(
+                    values,
+                    Variable.ARRAY,
+                    elementsType
+            );
+        }
+        else {
             int literalType = getLiteralType(literal, context);
 
             if( literalType == Variable.STRING ){
@@ -147,10 +211,7 @@ public class Expression {
             ContextManager context,
             SMITHGrammarVisitor parentVisitor
     ){
-        // System.out.println(ctx.getText());
         // Handle expression and return appropriate value
-
-        Value leftmostEvaluatedValue;
 
         // Check on which kind of rule are we standing on
 
@@ -259,6 +320,7 @@ public class Expression {
         }
         return null;
     }
+
     public static Value evaluateNonComparatorExp(
         SMITHGrammarParser.ExpressionncContext ctx,
         ContextManager context,

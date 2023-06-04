@@ -109,20 +109,29 @@ public class AritmeticOperator {
         if( !betweenNumbers )
             return null;
 
-        Value r = ParseType.parseToNeededType( rightMost, Variable.FLOAT );
-        if( r == null )
-            return null;
-        rightMost = r;
+        if( anyIsFloat ){
+            Value r = ParseType.parseToNeededType( rightMost, Variable.FLOAT );
+            if( r == null )
+                return null;
+            rightMost = r;
 
-        Value l = ParseType.parseToNeededType( leftMost, Variable.FLOAT );
-        if( l == null )
-            return null;
-        leftMost = l;
+            Value l = ParseType.parseToNeededType( leftMost, Variable.FLOAT );
+            if( l == null )
+                return null;
+            leftMost = l;
 
-        return new Value<> (
-                (Double) leftMost.value - (Double) rightMost.value,
-                Variable.FLOAT
-        );
+            return new Value<> (
+                    (Double) leftMost.value - (Double) rightMost.value,
+                    Variable.FLOAT
+            );
+        } else {
+            // We are working with integers
+            return new Value<> (
+                    (Integer) leftMost.value - (Integer) rightMost.value,
+                    Variable.INT
+            );
+        }
+
     }
 
     public static Value singleMinus(

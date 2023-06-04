@@ -20,11 +20,23 @@ program: block EOF
     ;
 
 // Global utils
-atomictype: INT | FLOAT | BOOL | STRING;
+atomictype: INT | FLOAT | BOOL | STRING | ARRAY;
 variabletype : atomictype;
 
 // - Join integers with floats
 numberliteral: INTEGER_LITERAL | FLOAT_LITERAL ;
+
+// - Arrays definition (inline)
+arrayliteral: OPEN_BRACKET arrayelements CLOSE_BRACKET
+    ;
+
+arrayelements: expression furtherarrayelements
+    | // We can pass elements or not
+    ;
+
+furtherarrayelements: COMMA arrayelements
+    | // We can pass more elements or not
+    ;
 
 // Decide block
 decideblock: decideprefix IF conditional statementbody decisionextension
@@ -41,7 +53,7 @@ decideprefix: DECIDE COLON
 definestatement: defineprefix defineextension SEMICOLON
     ;
 
-defineextension: atomictype arrayextension IDENTIFIER definedefaultvalue
+defineextension: atomictype IDENTIFIER definedefaultvalue
     | FUNCTION functiondefextension IDENTIFIER ASSIGN functionblock
     ;
 
@@ -162,6 +174,7 @@ literal: BOOLEAN_LITERAL
       | IDENTIFIER
       | numberliteral
       | functioncall
+      | arrayliteral
       ;
 
 functioncall: CALL COLON IDENTIFIER functioncallarguments

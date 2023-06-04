@@ -35,6 +35,24 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumberliteral(SMITHGrammarParser.NumberliteralContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#arrayliteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayliteral(SMITHGrammarParser.ArrayliteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#arrayelements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayelements(SMITHGrammarParser.ArrayelementsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#furtherarrayelements}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#decideblock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

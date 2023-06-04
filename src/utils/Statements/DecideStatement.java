@@ -61,8 +61,6 @@ public class DecideStatement {
 
         // Now statementBody has the body to execute
         // Execute it
-        BlockHandler.handle(statementBody.block(), context, parentVisitor);
-
-        return 0;
+        return BlockHandler.handle(statementBody.block(), context, parentVisitor);
     }
 }

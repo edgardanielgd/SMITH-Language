@@ -90,7 +90,7 @@ public class Function extends Value {
         context.insideFunction = true;
 
         // Creating default block
-        context.stack.push( this.ownedContext );
+        context.stack.push( (HashMap<String, Variable>) this.ownedContext.clone() );
 
         // now, push a new block for variables defined
         // in this function call
@@ -118,12 +118,10 @@ public class Function extends Value {
             );
 
             // Check if given value matches expected type
-            if( evaluatedValue.type != args.get(argIterator).type ){
+            if( evaluatedValue.type != args.get(argIterator).type ) {
                 // Type mismatch
                 return 1;
             }
-
-
 
             // Define argument in context
             context.defineVariable(
@@ -134,8 +132,6 @@ public class Function extends Value {
                     )
             );
 
-            System.out.println("Argument: " + args.get(argIterator).name + " = " + evaluatedValue.value);
-
             // Advance in arguments list
             furthercallarguments = callargument.furthercallarguments();
             callargument = furthercallarguments.callarguments();
@@ -143,7 +139,6 @@ public class Function extends Value {
             // Advance in argument iterator
             argIterator++;
         }
-
         // Now call function body
 
         BlockHandler.handle(
@@ -163,7 +158,6 @@ public class Function extends Value {
 
             // Save return value in given context
             givenContext.returnValue = context.returnValue;
-
         }
 
         context.pop();

@@ -48,6 +48,36 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitNumberliteral(SMITHGrammarParser.NumberliteralContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#arrayliteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayliteral(SMITHGrammarParser.ArrayliteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#arrayliteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayliteral(SMITHGrammarParser.ArrayliteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#arrayelements}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayelements(SMITHGrammarParser.ArrayelementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#arrayelements}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayelements(SMITHGrammarParser.ArrayelementsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#furtherarrayelements}.
+	 * @param ctx the parse tree
+	 */
+	void enterFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#furtherarrayelements}.
+	 * @param ctx the parse tree
+	 */
+	void exitFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#decideblock}.
 	 * @param ctx the parse tree
 	 */

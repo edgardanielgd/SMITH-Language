@@ -8,10 +8,15 @@ public class Value<T> {
     public T value;
     public int type;
     public int subtype;
-    public int[] dimensions;
 
-    public Value(T value, int type) {
-        this.value = value;
-        this.type = type;
+    public Value(T _value, int _type) {
+        this.value = _value;
+        this.type = _type;
+    }
+
+    public Value(T _value, int _type, int _subtype ){
+        this.value = _value;
+        this.type = _type;
+        this.subtype = _subtype;
     }
 }

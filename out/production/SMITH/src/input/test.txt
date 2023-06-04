@@ -1,31 +1,15 @@
-output:println{2*3+5*6+8};
-define:float b as 5;
-loop:for:noiterator 2 [
-
-    define:string d as "ola ";
-    output:print{d};
-
-]
-
-define:float c as 10;
-
-decide:if {4 < 4} [
-    output:println{"ola"};
-] decide:ifnot {5 > 5} [
-    output:println{11};
-] decide:ifnot {6 > 7} [
-    output:println{12};
-] decide:ifnot {8 < 9} [
-    output:println{"pan"};
-] decide:default [
-    output:println{14};
-]
-
-define:int a as b*c+40;
-output:println{a};
-define:function:int d as {int:x, int:y} [
-    output:println{a+b};
-    return x+y;
+define:function:int result as {int:x} [
+    decide:if {x > 1} [
+        return x*call:result{x-1};
+    ]
+    return 1;
+];
+define:function:int fibonacci as {int:x} [
+    decide:if {x > 2} [
+        return call:fibonacci{x-1}+call:fibonacci{x-2};
+    ]
+    return 1;
 ];
 
-output:println{call:d{4,5}+2};
+define:int x as [5,4,2,[4,5,6]];
+//output:println{call:fibonacci{7}};

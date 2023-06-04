@@ -42,8 +42,6 @@ public class FunctionCallStatement {
         SMITHGrammarParser.FunctioncallargumentsContext arguments = ctx.functioncallarguments();
 
         // Call function
-        function.call(parentVisitor, context, arguments );
-
-        return 0;
+        return function.call(parentVisitor, context, arguments );
     }
 }

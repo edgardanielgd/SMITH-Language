@@ -20,13 +20,13 @@ public class BlockHandler {
         SMITHGrammarParser.BlockContext currentStatement = ctx;
         while( currentStatement != null ) {
 
-
             status = Statement.handle(
                     context,
                     currentStatement,
                     parentVisitor
             );
 
+            // This is a return statement
             if( status == -1 ){
                 break;
             }

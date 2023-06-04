@@ -4,6 +4,7 @@ import src.gen.SMITHGrammarVisitor;
 import src.utils.*;
 import src.utils.Expressions.Value;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DefineStatement {
@@ -24,6 +25,7 @@ public class DefineStatement {
 
         // Further logic applies to non-function variables only
         if( atomicType != null ){
+            int variableType = ParseAtomicType.getVariableType(atomicType);
             Value evaluatedValue;
 
             // Get given value (to assignate)
@@ -38,6 +40,23 @@ public class DefineStatement {
                         context,
                         parentVisitor
                 );
+
+                // Check if given value matches type defined
+                if( evaluatedValue == null ){
+                    // Error evaluating expression
+                    return 1;
+                }
+
+                if( evaluatedValue.type != variableType ){
+                    // Type mismatch
+                    return 3;
+                } else if(
+                        evaluatedValue.type == Variable.ARRAY &&
+                        evaluatedValue.subtype != variableType
+                ){
+                    // Subtype mismatch
+                    return 4;
+                }
             }
             else {
                 // Assignate a default value
@@ -50,6 +69,9 @@ public class DefineStatement {
                     evaluatedValue = new Value("", Variable.STRING);
                 } else if (atomicType.BOOL() != null) {
                     evaluatedValue = new Value(false, Variable.BOOLEAN);
+                } else if( atomicType.ARRAY() != null ){
+
+                    evaluatedValue = new Value( new ArrayList<>(), Variable.ARRAY, variableType );
                 } else {
                     // This should never happen
                     return 1;

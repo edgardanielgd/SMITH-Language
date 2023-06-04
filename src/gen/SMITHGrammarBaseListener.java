@@ -65,6 +65,42 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterArrayliteral(SMITHGrammarParser.ArrayliteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayliteral(SMITHGrammarParser.ArrayliteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArrayelements(SMITHGrammarParser.ArrayelementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArrayelements(SMITHGrammarParser.ArrayelementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDecideblock(SMITHGrammarParser.DecideblockContext ctx) { }
 	/**
 	 * {@inheritDoc}
