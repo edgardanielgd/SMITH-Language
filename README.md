@@ -66,8 +66,14 @@ Algunas de las funciones probabilisticas implementadas se muestran a continuaci�
 ## Ejemplos
 Carpeta con ejemplos de código:
 [Ejemplos](./examples/)
+
 ## Créditos
 SMITH fue desarrollado por:
 - [Edgar Daniel Gonzalez Diaz](edgonzalezdi@unal.edu.co)
 - [Jhonatan Steven Rodriguez Ibañez](jhrodriguezi@unal.edu.co)
 - [Miguel Angel Puentes Cespedes](mipuentesc@unal.edu.co)
+
+## NOTA:
+- La gramática se encuentra en la carpeta /grammar/ en formato .g4
+- Ejemplos de uso en carpeta /examples/
+- Presentación en carpeta /docs/
