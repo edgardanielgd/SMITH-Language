@@ -48,7 +48,7 @@ public class OutputStatement {
 
         // Check if this is a print-case output
         if( extension.printtype() != null ){
-            String type = extension.printtype().getText();
+            SMITHGrammarParser.PrinttypeContext type = extension.printtype();
             // Get expression
             SMITHGrammarParser.ExpressionContext expression = extension.expression(0);
             // Evaluate expression
@@ -56,16 +56,16 @@ public class OutputStatement {
 
             String printable = generatePrintable(value);
 
-            if( type.equals("println") ){
+            if( type.PRINT() != null ){
                 // Print value
                 System.out.println(printable);
-            } else if( type.equals("print")) {
+            } else if( type.PRINTLN() != null ) {
                 // Print value
                 System.out.print(printable);
             } else {
                 // If it is an error
                 Error.throwError(
-                        "Error: Invalid print type",
+                        "Invalid print type",
                         ctx
                 );
                 return 1;
@@ -81,7 +81,7 @@ public class OutputStatement {
 
             if( x == null || y == null ){
                 Error.throwError(
-                        "Error: Plot requires two arrays",
+                        "Plot requires two arrays",
                         ctx
                 );
                 return 1;
@@ -89,7 +89,7 @@ public class OutputStatement {
 
             if( x.type != Variable.ARRAY || y.type != Variable.ARRAY ){
                 Error.throwError(
-                        "Error: Plot requires two arrays",
+                        "Plot requires two arrays",
                         ctx
                 );
                 return 1;
@@ -100,7 +100,7 @@ public class OutputStatement {
                 (x.subtype != Variable.FLOAT && y.subtype != Variable.INT)
             ){
                 Error.throwError(
-                        "Error: Plot requires two arrays of numbers",
+                        "Plot requires two arrays of numbers",
                         ctx
                 );
                 return 1;
@@ -112,7 +112,7 @@ public class OutputStatement {
             // Check if arrays have the same size
             if( xValues.size() != yValues.size() ){
                 Error.throwError(
-                        "Error: Plot requires two arrays of the same size",
+                        "Plot requires two arrays of the same size",
                         ctx
                 );
                 return 1;
@@ -148,7 +148,7 @@ public class OutputStatement {
 
             if( output == null || filename == null ){
                 Error.throwError(
-                        "Error: Writefile requires two valid arguments",
+                        "Writefile requires two valid arguments",
                         ctx
                 );
                 return 1;
@@ -182,7 +182,7 @@ public class OutputStatement {
 
         // If it is an error
         Error.throwError(
-                "Error: Invalid output type",
+                "Invalid output type",
                 ctx
         );
         return 1;

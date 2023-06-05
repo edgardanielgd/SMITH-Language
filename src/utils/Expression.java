@@ -353,8 +353,6 @@ public class Expression {
                                 Variable.FLOAT
                         );
 
-                        System.out.println(elementsType);
-
                         // Finally generate an array with given limits
                         ArrayList<Value> generatedArray = new ArrayList<>();
                         for (
@@ -363,14 +361,23 @@ public class Expression {
                                 i += (double) floatInterval.value
                         ){
                             // Now parse to needed type each element of array
-
-                            generatedArray.add(
+                            if( elementsType == Variable.INT ){
+                               Integer val = (int) i;
+                               generatedArray.add(
                                     new Value<>(
-                                            elementsType == Variable.INT ? (int) i : i,
+                                            val,
                                             elementsType
                                     )
-                            );
-                            System.out.println(((int)i).class);
+                               );
+                            } else {
+                                generatedArray.add(
+                                    new Value<>(
+                                            i,
+                                            elementsType
+                                    )
+                                );
+                            }
+
                         }
 
                         // Add generated array to values
