@@ -12,7 +12,7 @@ public class ProgramVisitor {
             SMITHGrammarVisitor parentVisitor,
             SMITHGrammarParser.ProgramContext ctx
     ) {
-        System.out.println("SMITH (Simple Mathematical Interpreter for Technical Handling");
+        System.out.println("SMITH (Simple Mathematical Interpreter for Technical Handling)");
         System.out.println("Jhonatan Steven Rodriguez Ibañez");
         System.out.println("Miguel Angel Puentes Cespedes");
         System.out.println("Edgar Daniel Gonzalez Diaz");

@@ -230,7 +230,9 @@ public class Expression {
             // Useful for letting user know which index the error is at
             int index = 0;
 
-            while (arrayElements != null && arrayElements.getChildCount() > 0) {
+            while (
+                    arrayElements != null && arrayElements.getChildCount() > 0
+            ) {
                 // Get value
                 Value value = evaluate(
                         arrayElements.expression(),
@@ -484,6 +486,8 @@ public class Expression {
             ContextManager context,
             SMITHGrammarVisitor parentVisitor
     ) {
+        if( ctx == null )
+            return null;
         // Handle expression and return appropriate value
 
         // Check on which kind of rule are we standing on

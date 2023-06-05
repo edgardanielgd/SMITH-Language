@@ -159,7 +159,7 @@ furtherarguments : COMMA arguments
     ;
 
 // Expression
-expression: | expressionnc comparisonoperator expressionnc
+expression: expressionnc comparisonoperator expressionnc
     | literal
     | MINUS expression
     | inputblock // Not an actual block, just a shorthand for reading from console
@@ -168,7 +168,6 @@ expression: | expressionnc comparisonoperator expressionnc
     | expression TIMES expression
     | expression DIVIDE expression
     | expression MOD expression
-
     | expression PLUS expression
     | expression MINUS expression
     | expression OR expression
