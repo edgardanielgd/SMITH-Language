@@ -35,7 +35,7 @@ arrayelements: expression furtherarrayelements
     ;
 
 furtherarrayelements: COMMA arrayelements
-    | DOT optionalinterval DOT expression // Shorthand arrays
+    | SEMICOLON optionalinterval SEMICOLON expression // Shorthand arrays
     | // We can pass more elements or not
     ;
 

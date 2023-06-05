@@ -473,9 +473,9 @@ public class SMITHGrammarParser extends Parser {
 		public ArrayelementsContext arrayelements() {
 			return getRuleContext(ArrayelementsContext.class,0);
 		}
-		public List<TerminalNode> DOT() { return getTokens(SMITHGrammarParser.DOT); }
-		public TerminalNode DOT(int i) {
-			return getToken(SMITHGrammarParser.DOT, i);
+		public List<TerminalNode> SEMICOLON() { return getTokens(SMITHGrammarParser.SEMICOLON); }
+		public TerminalNode SEMICOLON(int i) {
+			return getToken(SMITHGrammarParser.SEMICOLON, i);
 		}
 		public OptionalintervalContext optionalinterval() {
 			return getRuleContext(OptionalintervalContext.class,0);
@@ -518,15 +518,15 @@ public class SMITHGrammarParser extends Parser {
 				arrayelements();
 				}
 				break;
-			case DOT:
+			case SEMICOLON:
 				enterOuterAlt(_localctx, 2);
 				{
 				setState(125);
-				match(DOT);
+				match(SEMICOLON);
 				setState(126);
 				optionalinterval();
 				setState(127);
-				match(DOT);
+				match(SEMICOLON);
 				setState(128);
 				expression(0);
 				}
@@ -603,7 +603,7 @@ public class SMITHGrammarParser extends Parser {
 				expression(0);
 				}
 				break;
-			case DOT:
+			case SEMICOLON:
 				enterOuterAlt(_localctx, 2);
 				{
 				}
@@ -3951,8 +3951,8 @@ public class SMITHGrammarParser extends Parser {
 		"\u0000vw\u0003\f\u0006\u0000wz\u0001\u0000\u0000\u0000xz\u0001\u0000\u0000"+
 		"\u0000yu\u0001\u0000\u0000\u0000yx\u0001\u0000\u0000\u0000z\u000b\u0001"+
 		"\u0000\u0000\u0000{|\u0005\u0003\u0000\u0000|\u0084\u0003\n\u0005\u0000"+
-		"}~\u0005\u0005\u0000\u0000~\u007f\u0003\u000e\u0007\u0000\u007f\u0080"+
-		"\u0005\u0005\u0000\u0000\u0080\u0081\u0003L&\u0000\u0081\u0084\u0001\u0000"+
+		"}~\u0005\u0002\u0000\u0000~\u007f\u0003\u000e\u0007\u0000\u007f\u0080"+
+		"\u0005\u0002\u0000\u0000\u0080\u0081\u0003L&\u0000\u0081\u0084\u0001\u0000"+
 		"\u0000\u0000\u0082\u0084\u0001\u0000\u0000\u0000\u0083{\u0001\u0000\u0000"+
 		"\u0000\u0083}\u0001\u0000\u0000\u0000\u0083\u0082\u0001\u0000\u0000\u0000"+
 		"\u0084\r\u0001\u0000\u0000\u0000\u0085\u0088\u0003L&\u0000\u0086\u0088"+

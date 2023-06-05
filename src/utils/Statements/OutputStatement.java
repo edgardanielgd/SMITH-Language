@@ -123,8 +123,26 @@ public class OutputStatement {
             double[] yArray = new double[yValues.size()];
 
             for(int i = 0; i < xValues.size(); i++){
-                xArray[i] = (double)xValues.get(i).value;
-                yArray[i] = (double)yValues.get(i).value;
+                Value xVal = xValues.get(i);
+                if( xVal.type != Variable.INT && xVal.type != Variable.FLOAT ){
+                    Error.throwError(
+                            "Plot requires two arrays of numbers",
+                            ctx
+                    );
+                    return 1;
+                }
+
+                Value yVal = yValues.get(i);
+                if( yVal.type != Variable.INT && yVal.type != Variable.FLOAT ){
+                    Error.throwError(
+                            "Plot requires two arrays of numbers",
+                            ctx
+                    );
+                    return 1;
+                }
+
+                xArray[i] = (double)xVal.value;
+                yArray[i] = (double)yVal.value;
             }
 
             // Create chart

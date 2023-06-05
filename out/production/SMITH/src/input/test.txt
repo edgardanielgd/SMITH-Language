@@ -1,3 +1,9 @@
-definir : cadena a como entrada : leerconsola { };
-definir : cadena b como entrada : leerconsola { };
-salida:imprimir { int{a} + int{b} };
+define:float arr as [];
+define:float arr2 as [];
+
+loop:for:each { val in [ -5 ; 0.1 ; 5 ] } [
+    set arr as arr ~ val;
+    set arr2 as arr2 ~ call:dnorm { val, 0, 1 };
+]
+
+output:plot { arr, arr2 };

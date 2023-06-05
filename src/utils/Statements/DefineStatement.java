@@ -54,12 +54,18 @@ public class DefineStatement {
                     return 1;
                 }
 
+                // Set array type if its empty
+                if( evaluatedValue.type == Variable.ARRAY && evaluatedValue.subtype == Variable.UNDEFINED ){
+                    evaluatedValue.subtype = variableType;
+                }
+
                 if( evaluatedValue.type == Variable.ARRAY ){
                     if( evaluatedValue.subtype != variableType){
+
                         // Type mismatch
                         Error.throwError(
                                 "Given array type " + ParseType.typeToString(evaluatedValue.subtype) +
-                                        "doesn't match variable type " +
+                                        " doesn't match variable type " +
                                         ParseType.typeToString(variableType),
                                 ctx
                         );

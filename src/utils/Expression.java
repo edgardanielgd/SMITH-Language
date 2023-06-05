@@ -277,7 +277,7 @@ public class Expression {
 
                 if (furtherArrayElements != null && furtherArrayElements.getChildCount() > 0) {
                     // Check if this is a shorthand array generator
-                    if (furtherArrayElements.DOT(0) != null) {
+                    if (furtherArrayElements.SEMICOLON(0) != null) {
 
                         // We can provide an interval for the array
                         Value interval = null;
