@@ -1,1 +1,3 @@
-salida : imprimir { [ 0 . 0.2 . 10 ] };
+definir : cadena a como entrada : leerconsola { };
+definir : cadena b como entrada : leerconsola { };
+salida:imprimir { int{a} + int{b} };

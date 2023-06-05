@@ -78,6 +78,16 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#optionalinterval}.
+	 * @param ctx the parse tree
+	 */
+	void enterOptionalinterval(SMITHGrammarParser.OptionalintervalContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#optionalinterval}.
+	 * @param ctx the parse tree
+	 */
+	void exitOptionalinterval(SMITHGrammarParser.OptionalintervalContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#decideblock}.
 	 * @param ctx the parse tree
 	 */

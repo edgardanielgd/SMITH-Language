@@ -101,6 +101,18 @@ public class SMITHGrammarBaseListener implements SMITHGrammarListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOptionalinterval(SMITHGrammarParser.OptionalintervalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOptionalinterval(SMITHGrammarParser.OptionalintervalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterDecideblock(SMITHGrammarParser.DecideblockContext ctx) { }
 	/**
 	 * {@inheritDoc}

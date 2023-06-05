@@ -281,9 +281,12 @@ public class Expression {
 
                         // We can provide an interval for the array
                         Value interval = null;
-                        if( furtherArrayElements.expression(0) != null && furtherArrayElements.expression(0).getChildCount() > 0 ){
+                        if( furtherArrayElements.optionalinterval() != null &&
+                                furtherArrayElements.optionalinterval().getChildCount() > 0 ) {
+
+                            // Evaluate (if given) an interval between each pairs of elements in array
                             interval = evaluate(
-                                    furtherArrayElements.expression(0),
+                                    furtherArrayElements.optionalinterval().expression(),
                                     context,
                                     null
                             );
@@ -298,7 +301,7 @@ public class Expression {
                         }
 
                         Value limitValue = evaluate(
-                                furtherArrayElements.expression(1),
+                                furtherArrayElements.expression(),
                                 context,
                                 null
                         );
@@ -310,6 +313,7 @@ public class Expression {
                             );
                             return null;
                         }
+
 
                         // Now value : interval : limitValue represent an array of values to be generated
                         // if possible, they must be integers, otherwise all of them are float values
@@ -340,10 +344,14 @@ public class Expression {
                             elementsType = Variable.FLOAT;
                         }
 
-                        Value floatInterval = ParseType.parseToNeededType(
-                                interval,
-                                Variable.FLOAT
-                        );
+                        Value floatInterval = null ;
+                        if( interval != null ){
+                            floatInterval = ParseType.parseToNeededType(
+                                    interval,
+                                    Variable.FLOAT
+                            );
+                        }
+
                         Value floatValue = ParseType.parseToNeededType(
                                 value,
                                 Variable.FLOAT
@@ -355,10 +363,13 @@ public class Expression {
 
                         // Finally generate an array with given limits
                         ArrayList<Value> generatedArray = new ArrayList<>();
+
+                        double offset = interval != null ? (double) floatInterval.value : 1.0;
+
                         for (
-                                double i = (double) floatValue.value;
-                                i <= (double) floatLimitValue.value;
-                                i += (double) floatInterval.value
+                            double i = (double) floatValue.value;
+                            i <= (double) floatLimitValue.value;
+                            i += offset
                         ){
                             // Now parse to needed type each element of array
                             if( elementsType == Variable.INT ){
@@ -533,7 +544,7 @@ public class Expression {
 
             if (parsed == null) {
                 Error.throwError(
-                        "Invalid expression",
+                        "Couldn't parse to needed type",
                         ctx
                 );
                 return null;
