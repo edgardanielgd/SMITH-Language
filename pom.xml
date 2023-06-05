@@ -1,8 +1,13 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>mygroupid</groupId>
-  <artifactId>myartifactid</artifactId>
-  <version>0.0-SNAPSHOT</version>
+  <groupId>src</groupId>
+  <artifactId>smith</artifactId>
+  <version>1.0</version>
+
+  <properties>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -38,26 +43,17 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>de.qaware.maven</groupId>
-        <artifactId>go-offline-maven-plugin</artifactId>
-        <version>1.2.5</version>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.0.0</version>
         <configuration>
-          <dynamicDependencies>
-            <DynamicDependency>
-              <groupId>org.apache.maven.surefire</groupId>
-              <artifactId>surefire-junit4</artifactId>
-              <version>2.20.1</version>
-              <classifier></classifier>
-              <repositoryType>PLUGIN</repositoryType>
-            </DynamicDependency>
-            <DynamicDependency>
-              <groupId>com.querydsl</groupId>
-              <artifactId>querydsl-apt</artifactId>
-              <version>4.2.1</version>
-              <classifier>jpa</classifier>
-              <repositoryType>MAIN</repositoryType>
-            </DynamicDependency>
-          </dynamicDependencies>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classPathPrefix>lib/</classPathPrefix>
+              <mainClass>src.Main</mainClass>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
     </plugins>

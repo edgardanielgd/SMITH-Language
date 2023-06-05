@@ -12,6 +12,7 @@ public class Main {
         //try{
             String rootPath = System.getProperty("user.dir");
 
+
             // Common class definition
             SMITHGrammarLexer lexer = new SMITHGrammarLexer(
                     CharStreams.fromReader(
