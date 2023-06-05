@@ -1,1 +1,0 @@
-salida : imprimir { [ 1 . 2 . 50 ] };

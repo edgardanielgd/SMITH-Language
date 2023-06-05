@@ -370,7 +370,6 @@ public class Expression {
                                             elementsType
                                     )
                             );
-                            System.out.println(((int)i).class);
                         }
 
                         // Add generated array to values

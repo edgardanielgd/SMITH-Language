@@ -12,15 +12,10 @@ public class Main {
         //try{
             String rootPath = System.getProperty("user.dir");
 
-            String destFile = rootPath+"./src/output/output.js";
-
-            if( args.length > 1 )
-                destFile = args[1];
-
             // Common class definition
             SMITHGrammarLexer lexer = new SMITHGrammarLexer(
                     CharStreams.fromReader(
-                            new FileReader("./src/input/test.txt")
+                            new FileReader("src/input/fibonacci.sm")
                             // new BufferedReader(
                             //         new InputStreamReader(System.in)
                             // )

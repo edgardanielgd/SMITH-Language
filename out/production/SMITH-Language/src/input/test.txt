@@ -1,1 +1,0 @@
-output:println{call:dNorm{10, 0, 0.5}};
