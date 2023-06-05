@@ -28,6 +28,6 @@ public class ProgramVisitor {
                 parentVisitor
         );
 
-        System.out.println("[SMITH] Program finished successfully");
+        System.out.println("\n[SMITH] Program finished successfully");
     }
 }

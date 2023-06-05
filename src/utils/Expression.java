@@ -67,6 +67,12 @@ public class Expression {
 
         // Get literal type
 
+        if( literal.PI() != null ){
+            return new Value( Math.PI, Variable.FLOAT );
+        }
+        if( literal.EULER() != null ){
+            return new Value( Math.E, Variable.FLOAT );
+        }
         if (literal.IDENTIFIER() != null) {
             // Check if identifier exists
             String variableName = literal.IDENTIFIER().getText();

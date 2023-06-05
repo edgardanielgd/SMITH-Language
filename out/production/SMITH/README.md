@@ -13,11 +13,18 @@ Recuerda que, aunque SMITH es una herramienta útil para tareas matemáticas bá
 Para instalar SMITH, debes descargar el archivo smith.jar y ejecutarlo en tu computadora. Para ejecutarlo, puedes utilizar el siguiente comando en la terminal:
 
 ```
-java -jar smith.jar
+java -jar SMITH.jar
 ```
 
+Cuando descargas el código fuente de nuestro proyecto, podrás ver que éste archivo (el cual representa el resultado final del mismo), estará ubicado en la carpeta
+"dist". Allí mismo verás que habrá una subcarpeta titulada "src/input" junto a un archivo test.txt. En dicho archivo test será donde podrás escribir tu código en lenguaje
+SMITH y ver el resultado en la consola (e incluso, en una interfaz gráfica si haces un plot!). Cabe resaltar que se construyó dicho archivo de distribución
+bajo la versión 17 de Java, por tanto puede que tengas inconvenientes si no usas esa versión particularmente.
 ## Compilación
-????
+Abra el proyecto en un IDE apropiada para Java, la presente implementación se realizó usando la versión 17 de openjdk y el IDE IntelliJ IDEA.
+Tras abrir el proyecto vincule las librerías o módulos (ya sea como archivos JAR individuales o la carpeta completa) ubicadas en la carpeta lib adjunta a éste proyecto.
+Ahora, seleccione como punto de entrada la clase Main ubicada en la carpeta src.Main. Tras dicho proceso, bastará con ejecutar el proyecto mediante el IDE o mediante una
+consola de comandos. Al igual que la ejecución, se requiere del archivo test.txt en la carpeta src/input.
 ## Sintaxis
 ### Operaciones aritméticas
 En SMITH, puedes realizar operaciones aritméticas básicas utilizando los operadores correspondientes. Por ejemplo, puedes sumar dos números utilizando el operador +:
