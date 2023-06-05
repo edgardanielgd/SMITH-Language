@@ -1,9 +1,4 @@
-define:float arr as [];
-define:float arr2 as [];
+define:float axisx as [ [0.1, 0.2], [0.3, 0.4], [0.5, 0.6], [0.7, 0.8] ];
+define:float axisy as [ [0.1, 0.0, 0.3, 0.4], [0.5, 0.6, 0.7, 0.8] ];
 
-loop:for:each { val in [ -5 ; 0.1 ; 5 ] } [
-    set arr as arr ~ val;
-    set arr2 as arr2 ~ call:dnorm { val, 0, 1 };
-]
-
-output:plot { arr, arr2 };
+output:print{axisx * axisy};

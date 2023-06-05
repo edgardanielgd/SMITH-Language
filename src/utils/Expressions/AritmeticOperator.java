@@ -717,8 +717,6 @@ public class AritmeticOperator {
             return dotProduct;
         }
 
-        System.out.println("Multiplying matrices");
-
         // 2D Matrix multiplication
         // Both operands are matrixes, since they had at least one array inside
         // Now we must make sure they didn't mess things and there are atomic types
@@ -758,16 +756,14 @@ public class AritmeticOperator {
             return null;
         }
 
-        System.out.println(lFirstDimension);
-        System.out.println(lSecondDimension);
-        System.out.println(rSecondDimension);
-
         // Multiply matrices
         for( int i = 0; i < lFirstDimension; i++ ){
             ArrayList<Value> row = new ArrayList<>();
 
             for( int j = 0; j < rSecondDimension; j++ ){
-                Value sum = new Value<>( 0, newSubtype );
+                Value sum = new Value<>(
+                        newSubtype == Variable.INT ? 0 : 0.0 , newSubtype
+                );
 
                 for( int k = 0; k < lSecondDimension; k++ ){
 
@@ -835,7 +831,6 @@ public class AritmeticOperator {
                         return null;
                     }
                 }
-
                 row.add( sum );
             }
 

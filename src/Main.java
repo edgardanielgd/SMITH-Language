@@ -16,7 +16,7 @@ public class Main {
             // Common class definition
             SMITHGrammarLexer lexer = new SMITHGrammarLexer(
                     CharStreams.fromReader(
-                            new FileReader("src/input/fibonacci.sm")
+                            new FileReader("src/input/test.txt")
                             // new BufferedReader(
                             //         new InputStreamReader(System.in)
                             // )
@@ -61,8 +61,8 @@ public class Main {
             // FileOutputStream writer = new FileOutputStream(destFile);
             // writer.write(output.getBytes());
         //} catch (Exception e){
-            //    System.out.println(e.getMessage());
-            //}
+        //    System.out.println(e.getMessage());
+        //}
 
     }
 }
