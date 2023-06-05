@@ -26,6 +26,7 @@ public class SetStatement {
                 parentVisitor
         );
 
+
         // Check if given value matches type defined
         if (evaluatedValue == null) {
             // Error evaluating expression
@@ -48,6 +49,12 @@ public class SetStatement {
                     ctx
             );
             return 2;
+        }
+
+        // Set array type if its empty
+        if( evaluatedValue.type == Variable.ARRAY && evaluatedValue.subtype == Variable.UNDEFINED ){
+            evaluatedValue.subtype = variable.value.type == Variable.ARRAY ?
+                    variable.value.subtype : variable.value.type;
         }
 
         Value value = variable.value;

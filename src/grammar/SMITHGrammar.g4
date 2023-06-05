@@ -35,8 +35,12 @@ arrayelements: expression furtherarrayelements
     ;
 
 furtherarrayelements: COMMA arrayelements
-    | DOT (expression | ) DOT expression // Shorthand arrays
+    | SEMICOLON optionalinterval SEMICOLON expression // Shorthand arrays
     | // We can pass more elements or not
+    ;
+
+optionalinterval: expression
+    | // Not even necessary, we can define an array without an interval (default to 1)
     ;
 
 // Decide block
@@ -126,8 +130,8 @@ inputblock: inputprefix inputextension
 inputprefix: INPUT COLON
     ;
 
-inputextension: READFILE OPEN_BRACE expression CLOSE_BRACE SEMICOLON
-    | READCONSOLE OPEN_BRACE CLOSE_BRACE SEMICOLON
+inputextension: READFILE OPEN_BRACE expression CLOSE_BRACE
+    | READCONSOLE OPEN_BRACE CLOSE_BRACE
     ;
 
 // Statements block / oneline expression
@@ -263,7 +267,7 @@ LESS_EQUAL: '<=' ;
 GREATER_EQUAL: '>=' ;
 EQUAL_EQUAL: '==' ;
 NOT_EQUAL: '!=' ;
-ASSIGN: 'as';
+ASSIGN: 'as' | 'como';
 OPEN_PAREN: '(' ;
 CLOSE_PAREN: ')' ;
 OPEN_BRACKET: '[' ;

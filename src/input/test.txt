@@ -7,3 +7,5 @@ loop:for:each { val in [ -5 ; 0.1 ; 5 ] } [
 ]
 
 output:plot { arr, arr2 };
+
+

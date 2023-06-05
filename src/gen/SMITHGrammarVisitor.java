@@ -53,6 +53,12 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitFurtherarrayelements(SMITHGrammarParser.FurtherarrayelementsContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#optionalinterval}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOptionalinterval(SMITHGrammarParser.OptionalintervalContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#decideblock}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
