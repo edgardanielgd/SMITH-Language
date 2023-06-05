@@ -1,9 +1,9 @@
-definir:funcion:entero fibonacci como {entero:x} [
-    decidir:si {x > 2} [
-        regresar invocar:fibonacci{x-1}+invocar:fibonacci{x-2};
+define:function:int fibonacci as {int:x} [
+    decide:si {x > 2} [
+        return call:fibonacci{x-1}+call:fibonacci{x-2};
     ]
-    regresar 1;
+    return 1;
 ];
 
-salida:imprimir{invocar:fibonacci{11}};
+output:print{call:fibonacci{11}};
 

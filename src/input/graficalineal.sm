@@ -1,2 +1,10 @@
-define:float axisx as [ 0;  ];
-define:float axisy as [ [0.1, 0.2, 0.3, 0.4], [0.5, 0.6, 0.7, 0.8] ];
+define:float x as [];
+define:float y as [];
+
+loop:for:each {val in [-1; 0.1; 1] } [
+    set x as x ~ val;
+    set y as y ~ (5 * val + 3);
+]
+
+output:plot{x, y};
+

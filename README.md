@@ -10,12 +10,7 @@ A pesar de su sintaxis peculiar, SMITH busca ser accesible para personas novatas
 Recuerda que, aunque SMITH es una herramienta útil para tareas matemáticas básicas, si necesitas realizar cálculos más avanzados o trabajar con conceptos matemáticos complejos, es posible que debas explorar otros lenguajes de programación más especializados o utilizar software específico para matemáticas.
 
 ## Instalación
-Para instalar SMITH, debes descargar el archivo smith.jar y ejecutarlo en tu computadora. Para ejecutarlo, puedes utilizar el siguiente comando en la terminal:
-
-```
-java -jar smith.jar
-```
-
+Descargar 
 ## Compilación
 ????
 ## Sintaxis
@@ -55,8 +50,6 @@ Algunas de las funciones probabilisticas implementadas se muestran a continuaci�
 > qNorm(0.5, 0, 1)
 0.0
 ```
-
-## Ejemplos
 
 ## Créditos
 SMITH fue desarrollado por:

@@ -163,15 +163,16 @@ expression: literal
     | MINUS expression
     | inputblock // Not an actual block, just a shorthand for reading from console
     | atomictype OPEN_BRACE expression CLOSE_BRACE
-    | expression OR expression
-    | expression AND expression
     | expression TILDE expression
+    | expressionnc comparisonoperator expressionnc
     | expression TIMES expression
     | expression DIVIDE expression
     | expression MOD expression
     | expression PLUS expression
     | expression MINUS expression
-    | expressionnc comparisonoperator expressionnc
+    | expression OR expression
+    | expression AND expression
+
     | OPEN_PAREN expression CLOSE_PAREN
     ;
 
@@ -180,14 +181,14 @@ expressionnc: literal
     | MINUS expressionnc
     | inputblock // Not an actual block, just a shorthand for reading from console
     | atomictype OPEN_BRACE expression CLOSE_BRACE
-    | expressionnc OR expression
-    | expressionnc AND expression
     | expressionnc TILDE expressionnc
     | expressionnc TIMES expressionnc
     | expressionnc DIVIDE expressionnc
     | expressionnc MOD expressionnc
     | expressionnc PLUS expressionnc
     | expressionnc MINUS expressionnc
+    | expressionnc OR expression
+    | expressionnc AND expression
     | OPEN_PAREN expression CLOSE_PAREN
     ;
 

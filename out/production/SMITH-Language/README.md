@@ -56,8 +56,6 @@ Algunas de las funciones probabilisticas implementadas se muestran a continuaci√
 0.0
 ```
 
-## Ejemplos
-
 ## Cr√©ditos
 SMITH fue desarrollado por:
 - [Edgar Daniel Gonzalez Diaz](edgonzalezdi@unal.edu.co)
