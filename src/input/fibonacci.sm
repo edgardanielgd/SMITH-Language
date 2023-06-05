@@ -1,9 +1,0 @@
-define:function:int fibonacci as {int:x} [
-    decide:si {x > 2} [
-        return call:fibonacci{x-1}+call:fibonacci{x-2};
-    ]
-    return 1;
-];
-
-output:print{call:fibonacci{11}};
-

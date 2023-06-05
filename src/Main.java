@@ -9,14 +9,14 @@ import src.visitors.*;
 public class Main {
     public static void main(String[] args) throws IOException{
 
-        //try{
+        try{
             String rootPath = System.getProperty("user.dir");
 
 
             // Common class definition
             SMITHGrammarLexer lexer = new SMITHGrammarLexer(
                     CharStreams.fromReader(
-                            new FileReader("src/input/graficalineal.sm")
+                            new FileReader("src/input/test.sm")
                             // new BufferedReader(
                             //         new InputStreamReader(System.in)
                             // )
@@ -60,9 +60,9 @@ public class Main {
             // System.out.println(output);
             // FileOutputStream writer = new FileOutputStream(destFile);
             // writer.write(output.getBytes());
-        //} catch (Exception e){
-        //    System.out.println(e.getMessage());
-        //}
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
     }
 }

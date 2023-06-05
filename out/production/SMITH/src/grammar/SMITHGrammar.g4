@@ -159,12 +159,12 @@ furtherarguments : COMMA arguments
     ;
 
 // Expression
-expression: literal
+expression: expressionnc comparisonoperator expressionnc
+    | literal
     | MINUS expression
     | inputblock // Not an actual block, just a shorthand for reading from console
     | atomictype OPEN_BRACE expression CLOSE_BRACE
     | expression TILDE expression
-    | expressionnc comparisonoperator expressionnc
     | expression TIMES expression
     | expression DIVIDE expression
     | expression MOD expression
@@ -172,7 +172,6 @@ expression: literal
     | expression MINUS expression
     | expression OR expression
     | expression AND expression
-
     | OPEN_PAREN expression CLOSE_PAREN
     ;
 
@@ -195,7 +194,8 @@ expressionnc: literal
 comparisonoperator: LESS | GREATER | LESS_EQUAL | GREATER_EQUAL | EQUAL_EQUAL | NOT_EQUAL
     ;
 
-literal: BOOLEAN_LITERAL
+literal: PI | EULER
+      | BOOLEAN_LITERAL
       | STRING_LITERAL
       | IDENTIFIER arrayitem
       | numberliteral
@@ -248,6 +248,8 @@ block: decideblock block
     ;
 
 // Defining tokens to read
+PI: 'pi' ;
+EULER: 'euler' ;
 COLON: ':' ;
 SEMICOLON: ';' ;
 COMMA: ',' ;

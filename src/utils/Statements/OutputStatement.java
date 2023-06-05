@@ -6,6 +6,7 @@ import src.utils.ContextManager;
 import src.utils.Error;
 import src.utils.Expression;
 import src.utils.Expressions.Value;
+import src.utils.Expressions.ParseType;
 import src.utils.Variable;
 import org.knowm.xchart.XYChart;
 import java.io.*;
@@ -131,9 +132,33 @@ public class OutputStatement {
                     );
                     return 1;
                 }
+                xVal = ParseType.parseToNeededType(
+                        xVal,
+                        Variable.FLOAT
+                );
+
+                if( xVal == null ){
+                    Error.throwError(
+                            "Plot requires two arrays of numbers",
+                            ctx
+                    );
+                    return 1;
+                }
 
                 Value yVal = yValues.get(i);
                 if( yVal.type != Variable.INT && yVal.type != Variable.FLOAT ){
+                    Error.throwError(
+                            "Plot requires two arrays of numbers",
+                            ctx
+                    );
+                    return 1;
+                }
+                yVal = ParseType.parseToNeededType(
+                        yVal,
+                        Variable.FLOAT
+                );
+
+                if( yVal == null ){
                     Error.throwError(
                             "Plot requires two arrays of numbers",
                             ctx

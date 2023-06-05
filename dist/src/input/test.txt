@@ -1,0 +1,3 @@
+define:float a as 1.0;
+
+output:println { a };

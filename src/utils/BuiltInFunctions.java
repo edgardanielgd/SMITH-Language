@@ -19,6 +19,7 @@ public class BuiltInFunctions {
             "dNorm","pNorm","qNorm","rNorm",
             "dExp","pExp","qExp","rExp",
             "dUnif","pUnif","qUnif","rUnif",
+            "cos", "sin", "tan", "sqrt", "exp"
     };
 
     private static final ArrayList<Class<?>[]> PARAMETERTYPES = new ArrayList<>(
@@ -46,7 +47,12 @@ public class BuiltInFunctions {
                     new Class<?>[]{double.class, double.class, double.class}, // dUnif
                     new Class<?>[]{double.class, double.class, double.class}, // pUnif
                     new Class<?>[]{double.class, double.class, double.class}, // qUnif
-                    new Class<?>[]{double.class, double.class} // rUnif
+                    new Class<?>[]{double.class, double.class}, // rUnif
+                    new Class<?>[]{double.class}, // cos
+                    new Class<?>[]{double.class}, // sin
+                    new Class<?>[]{double.class}, // tan
+                    new Class<?>[]{double.class}, // sqrt
+                    new Class<?>[]{double.class} // exp
                     )
     );
 

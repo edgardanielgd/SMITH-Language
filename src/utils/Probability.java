@@ -138,6 +138,26 @@ public class Probability {
         return mean + sd * Math.sqrt(-2 * Math.log(Math.random())) * Math.cos(2 * Math.PI * Math.random());
     }
 
+    public static double sqrt(double x) {
+        return Math.sqrt(x);
+    }
+
+    public static double cos(double x) {
+        return Math.cos(x);
+    }
+
+    public static double sin(double x) {
+        return Math.sin(x);
+    }
+
+    public static double tan(double x) {
+        return Math.tan(x);
+    }
+
+    public static double exp(double x) {
+        return Math.exp(x);
+    }
+
     private static double erf(double x) {
         double a1 = 0.254829592;
         double a2 = -0.284496736;
@@ -163,4 +183,6 @@ public class Probability {
             factorial *= i;
         return factorial;
     }
+
+
 }

@@ -1,5 +1,5 @@
 // Sample of recursion
-define:function:int fibonacci = { int param } [
+define:function:int fibonacci as { int param } [
     if { param < 2 } [
         return param;
     ]

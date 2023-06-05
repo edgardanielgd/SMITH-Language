@@ -13,9 +13,9 @@ public class ProgramVisitor {
             SMITHGrammarParser.ProgramContext ctx
     ) {
         System.out.println("SMITH (Simple Mathematical Interpreter for Technical Handling)");
-        //System.out.println("Jhonatan Steven Rodriguez Ibañez");
-        //System.out.println("Miguel Angel Puentes Cespedes");
-        //System.out.println("Edgar Daniel Gonzalez Diaz");
+        System.out.println("Jhonatan Steven Rodriguez Ibañez");
+        System.out.println("Miguel Angel Puentes Cespedes");
+        System.out.println("Edgar Daniel Gonzalez Diaz");
 
         // Initialize global context manager
         // This object will handle all of variables definition and check
@@ -28,6 +28,6 @@ public class ProgramVisitor {
                 parentVisitor
         );
 
-        System.out.println("[SMITH] Program finished successfully");
+        System.out.println("\n[SMITH] Program finished successfully");
     }
 }
