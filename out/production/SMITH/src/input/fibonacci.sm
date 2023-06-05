@@ -1,0 +1,9 @@
+definir:funcion:entero fibonacci como {entero:x} [
+    decidir:si {x > 2} [
+        return invocar:fibonacci{x-1}+invocar:fibonacci{x-2};
+    ]
+    return 1;
+];
+
+salida:imprimir{invocar:fibonacci{10}};
+
