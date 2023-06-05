@@ -35,7 +35,7 @@ arrayelements: expression furtherarrayelements
     ;
 
 furtherarrayelements: COMMA arrayelements
-    | DOT DOT expression // Shorthand arrays
+    | DOT (expression | ) DOT expression // Shorthand arrays
     | // We can pass more elements or not
     ;
 
@@ -118,6 +118,18 @@ outputextension: printtype OPEN_BRACE expression CLOSE_BRACE SEMICOLON
 printtype: PRINT | PRINTLN
     ;
 
+// Input statement
+// - NOTE: Not an actual block :)
+inputblock: inputprefix inputextension
+    ;
+
+inputprefix: INPUT COLON
+    ;
+
+inputextension: READFILE OPEN_BRACE expression CLOSE_BRACE SEMICOLON
+    | READCONSOLE OPEN_BRACE CLOSE_BRACE SEMICOLON
+    ;
+
 // Statements block / oneline expression
 statementbody: OPEN_BRACKET block CLOSE_BRACKET
     | expression SEMICOLON
@@ -145,14 +157,16 @@ furtherarguments : COMMA arguments
 // Expression
 expression: literal
     | MINUS expression
+    | inputblock // Not an actual block, just a shorthand for reading from console
     | atomictype OPEN_BRACE expression CLOSE_BRACE
+    | expression OR expression
+    | expression AND expression
     | expression TILDE expression
     | expression TIMES expression
     | expression DIVIDE expression
     | expression MOD expression
     | expression PLUS expression
     | expression MINUS expression
-    | expression logicaloperator expression
     | expressionnc comparisonoperator expressionnc
     | OPEN_PAREN expression CLOSE_PAREN
     ;
@@ -160,18 +174,17 @@ expression: literal
 // - Expression without comparison operators
 expressionnc: literal
     | MINUS expressionnc
+    | inputblock // Not an actual block, just a shorthand for reading from console
     | atomictype OPEN_BRACE expression CLOSE_BRACE
+    | expressionnc OR expression
+    | expressionnc AND expression
     | expressionnc TILDE expressionnc
     | expressionnc TIMES expressionnc
     | expressionnc DIVIDE expressionnc
     | expressionnc MOD expressionnc
     | expressionnc PLUS expressionnc
     | expressionnc MINUS expressionnc
-    | expressionnc logicaloperator expression
     | OPEN_PAREN expression CLOSE_PAREN
-    ;
-
-logicaloperator: AND | OR
     ;
 
 comparisonoperator: LESS | GREATER | LESS_EQUAL | GREATER_EQUAL | EQUAL_EQUAL | NOT_EQUAL
@@ -215,7 +228,7 @@ returnstatement: RETURN expression SEMICOLON
     ;
 
 // Set statement
-setstatement: SET IDENTIFIER ASSIGN expression SEMICOLON
+setstatement: SET IDENTIFIER arrayitem ASSIGN expression SEMICOLON
     ;
 
 // Block

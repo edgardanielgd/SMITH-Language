@@ -1,7 +1,1 @@
-define:int a as [1,2,3];
-define:int b as [1,2,3];
-define:int c as 5;
-define:int d as 7;
-define:int e as int{ c*d/2 };
-
-output:println{ e };
+salida : imprimir { [ 1 . 2 . 50 ] };

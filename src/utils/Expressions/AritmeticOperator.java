@@ -472,7 +472,6 @@ public class AritmeticOperator {
             Value leftMost, Value rightMost,
             ParserRuleContext ctx
     ) {
-
         if(
                 leftMost.type == Variable.ARRAY ||
                 rightMost.type == Variable.ARRAY
@@ -492,15 +491,6 @@ public class AritmeticOperator {
 
             if (rightIsArray)
                 rightArray = (ArrayList<Value>) rightMost.value;
-
-            // If both are arrays, check if they are of the same size
-            if (leftIsArray && rightIsArray && leftArray.size() != rightArray.size()){
-                Error.throwError(
-                        "Cannot multiply arrays of different sizes",
-                        ctx
-                );
-                return null;
-            }
 
             // Check if subtypes are consistent
             int leftType = leftIsArray ? leftMost.subtype : leftMost.type;
@@ -669,45 +659,77 @@ public class AritmeticOperator {
 
         // Getting second dimensions
         Value lSample = left.get(0);
-        Value lRight = right.get(0);
+        Value rSample = right.get(0);
 
         ArrayList<Value> result = new ArrayList<>();
 
-        if( lSample.type != Variable.ARRAY || lRight.type != Variable.ARRAY ){
-            if( lFirstDimension != rFirstDimension ){
+        if( lSample.type != Variable.ARRAY || rSample.type != Variable.ARRAY ){
+
+            // If one is array and the other one is not, then its clearly an error
+            if( lSample.type == Variable.ARRAY || rSample.type == Variable.ARRAY ){
                 Error.throwError(
-                        "Cannot multiply matrices of no consistent sizes",
+                        "Cannot multiply matrix by non matrix",
                         ctx
                 );
                 return null;
             }
-            else {
-                for( int i = 0; i < lFirstDimension; i++ ){
-                    Value l = left.get(i);
-                    Value r = right.get(i);
 
-                    Value sum = times( l, r, ctx );
-                    if( sum == null ){
-                        Error.throwError(
-                                "No valid multiplication between " +
-                                        typeToString(l.type) + " and " +
-                                        typeToString(r.type) + "",
-                                ctx
-                        );
-                        return null;
-                    }
-
-                    result.add( sum );
-                }
+            if( lFirstDimension != rFirstDimension ){
+                Error.throwError(
+                        "Cannot multiply matrices of non consistent sizes",
+                        ctx
+                );
+                return null;
             }
+
+            Value dotProduct = new Value(
+                    0,
+                    lSample.type
+            );
+
+            // Multiply vectors
+            for( int i = 0; i < lFirstDimension; i++ ){
+                Value l = left.get(i);
+                Value r = right.get(i);
+
+                // If any of both aren't atomic types, then its an error
+                if( l.type == Variable.ARRAY || r.type == Variable.ARRAY ){
+                    Error.throwError(
+                            "Cannot multiply matrix by non matrix",
+                            ctx
+                    );
+                    return null;
+                }
+
+                Value sum = times( l, r, ctx );
+                if( sum == null ){
+                    Error.throwError(
+                            "No valid multiplication between " +
+                                    typeToString(l.type) + " and " +
+                                    typeToString(r.type) + "",
+                            ctx
+                    );
+                    return null;
+                }
+                dotProduct = sum( dotProduct, sum, ctx );
+            }
+
+            return dotProduct;
         }
+
+        System.out.println("Multiplying matrices");
+
+        // 2D Matrix multiplication
+        // Both operands are matrixes, since they had at least one array inside
+        // Now we must make sure they didn't mess things and there are atomic types
+        // inside arrays which have arrays as items
 
         int lSecondDimension = 0;
         int rSecondDimension = 0;
 
         // Both are arrays, check the size of them
         lSecondDimension = ((ArrayList<Value>) lSample.value).size();
-        rSecondDimension = ((ArrayList<Value>) lRight.value).size();
+        rSecondDimension = ((ArrayList<Value>) rSample.value).size();
 
         // Check if we can multiply matrices
         if( lSecondDimension != rFirstDimension ){
@@ -718,6 +740,28 @@ public class AritmeticOperator {
             return null;
         }
 
+        // Check any inconsistency in left or right dimensions
+        if( left.size() < lFirstDimension ){
+            Error.throwError(
+                    "Inconsistent matrix sizes",
+                    ctx
+            );
+            return null;
+        }
+
+        // Check any inconsistency in left or right dimensions
+        if( right.size() < lSecondDimension ){
+            Error.throwError(
+                    "Inconsistent matrix sizes",
+                    ctx
+            );
+            return null;
+        }
+
+        System.out.println(lFirstDimension);
+        System.out.println(lSecondDimension);
+        System.out.println(rSecondDimension);
+
         // Multiply matrices
         for( int i = 0; i < lFirstDimension; i++ ){
             ArrayList<Value> row = new ArrayList<>();
@@ -726,10 +770,50 @@ public class AritmeticOperator {
                 Value sum = new Value<>( 0, newSubtype );
 
                 for( int k = 0; k < lSecondDimension; k++ ){
-                    Value l = ((ArrayList<Value>) left.get(i).value).get(k);
-                    Value r = ((ArrayList<Value>) right.get(k).value).get(j);
+
+                    // We could get inconsistent types at any moment
+                    Value lPrevValue = left.get(i);
+                    if( lPrevValue.type != Variable.ARRAY ){
+                        Error.throwError(
+                                "Cannot multiply matrix by non matrix",
+                                ctx
+                        );
+                        return null;
+                    }
+
+                    ArrayList<Value> lPrev = (ArrayList<Value>) lPrevValue.value;
+                    if( lPrev.size() < lSecondDimension ){
+                        Error.throwError(
+                                "Inconsistent matrix sizes",
+                                ctx
+                        );
+                        return null;
+                    }
+                    Value l = lPrev.get(k);
+
+                    // Now check consistency of right matrix
+                    Value rPrevValue = right.get(k);
+                    if( rPrevValue.type != Variable.ARRAY ){
+                        Error.throwError(
+                                "Cannot multiply matrix by non matrix",
+                                ctx
+                        );
+                        return null;
+                    }
+
+                    ArrayList<Value> rPrev = (ArrayList<Value>) rPrevValue.value;
+                    if( rPrev.size() < rSecondDimension ){
+                        Error.throwError(
+                                "Inconsistent matrix sizes",
+                                ctx
+                        );
+                        return null;
+                    }
+
+                    Value r = (rPrev).get(j);
 
                     Value product = times( l, r, ctx );
+
                     if( product == null ){
                         Error.throwError(
                                 "No valid multiplication between " +
@@ -755,7 +839,7 @@ public class AritmeticOperator {
                 row.add( sum );
             }
 
-            result.add( new Value<>( row, newSubtype, newSubtype ) );
+            result.add( new Value<>( row, Variable.ARRAY, newSubtype ) );
         }
 
         return new Value<>( result, Variable.ARRAY, newSubtype );

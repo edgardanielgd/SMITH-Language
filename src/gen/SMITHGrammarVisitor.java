@@ -179,6 +179,24 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrinttype(SMITHGrammarParser.PrinttypeContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#inputblock}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputblock(SMITHGrammarParser.InputblockContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#inputprefix}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputprefix(SMITHGrammarParser.InputprefixContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link SMITHGrammarParser#inputextension}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitInputextension(SMITHGrammarParser.InputextensionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#statementbody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -226,12 +244,6 @@ public interface SMITHGrammarVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitExpressionnc(SMITHGrammarParser.ExpressionncContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link SMITHGrammarParser#logicaloperator}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLogicaloperator(SMITHGrammarParser.LogicaloperatorContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link SMITHGrammarParser#comparisonoperator}.
 	 * @param ctx the parse tree

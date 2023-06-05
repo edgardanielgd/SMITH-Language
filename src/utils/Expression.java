@@ -5,8 +5,8 @@ import src.gen.SMITHGrammarVisitor;
 import src.utils.Expressions.*;
 import src.utils.Expressions.AritmeticOperator;
 import src.utils.Expressions.ParseType.*;
-import src.utils.Variable;
-import src.utils.BuiltInFunctions;
+import src.utils.Statements.InputStatement;
+
 
 import java.util.ArrayList;
 
@@ -99,6 +99,14 @@ public class Expression {
                 // Process array accessor
                 while (arrayAccessor != null && arrayAccessor.getChildCount() > 0) {
 
+                    // Check first if this variable is an array
+                    if( value.type != Variable.ARRAY ){
+                        Error.throwError(
+                                "Variable " + variableName + " is not an array at index " + arrayAccessor.getText(),
+                                literal
+                        );
+                        return null;
+                    }
                     array = (ArrayList<Value>) value.value;
 
                     Value accessor = evaluate(
@@ -270,8 +278,27 @@ public class Expression {
                 if (furtherArrayElements != null && furtherArrayElements.getChildCount() > 0) {
                     // Check if this is a shorthand array generator
                     if (furtherArrayElements.DOT(0) != null) {
+
+                        // We can provide an interval for the array
+                        Value interval = null;
+                        if( furtherArrayElements.expression(0) != null && furtherArrayElements.expression(0).getChildCount() > 0 ){
+                            interval = evaluate(
+                                    furtherArrayElements.expression(0),
+                                    context,
+                                    null
+                            );
+
+                            if (interval == null) {
+                                Error.throwError(
+                                        "Invalid array interval at item " + index + " of array",
+                                        arrayElements
+                                );
+                                return null;
+                            }
+                        }
+
                         Value limitValue = evaluate(
-                                furtherArrayElements.expression(),
+                                furtherArrayElements.expression(1),
                                 context,
                                 null
                         );
@@ -284,30 +311,73 @@ public class Expression {
                             return null;
                         }
 
-                        if (limitValue.type != Variable.INT || value.type != Variable.INT) {
+                        // Now value : interval : limitValue represent an array of values to be generated
+                        // if possible, they must be integers, otherwise all of them are float values
+                        // not this has direct implications over the type of the iterator, for example
+
+                        boolean valueIsNumber = value.type == Variable.INT || value.type == Variable.FLOAT;
+                        boolean intervalIsNumber = interval != null && (interval.type == Variable.INT || interval.type == Variable.FLOAT) ;
+                        boolean limitIsNumber = limitValue.type == Variable.INT || limitValue.type == Variable.FLOAT;
+
+                        if (
+                            !valueIsNumber || !limitIsNumber || (interval != null && !intervalIsNumber)
+                        ) {
                             Error.throwError(
-                                    "Invalid shorthand array generator parameter Limits must be an integer",
+                                    "Invalid shorthand array generator parameters, Limits must be numbers, if given, "+
+                                        " interval should be one as well",
                                     arrayElements
                             );
                             return null;
                         }
 
+                        // Get subtype for this array
+                        elementsType = Variable.INT;
+                        if(
+                                limitValue.type == Variable.FLOAT ||
+                                (interval != null && interval.type == Variable.FLOAT) ||
+                                value.type == Variable.FLOAT
+                        ) {
+                            elementsType = Variable.FLOAT;
+                        }
+
+                        Value floatInterval = ParseType.parseToNeededType(
+                                interval,
+                                Variable.FLOAT
+                        );
+                        Value floatValue = ParseType.parseToNeededType(
+                                value,
+                                Variable.FLOAT
+                        );
+                        Value floatLimitValue = ParseType.parseToNeededType(
+                                limitValue,
+                                Variable.FLOAT
+                        );
+
+                        System.out.println(elementsType);
+
                         // Finally generate an array with given limits
                         ArrayList<Value> generatedArray = new ArrayList<>();
-                        for (int i = (int) value.value; i <= (int) limitValue.value; i++) {
+                        for (
+                                double i = (double) floatValue.value;
+                                i <= (double) floatLimitValue.value;
+                                i += (double) floatInterval.value
+                        ){
+                            // Now parse to needed type each element of array
+
                             generatedArray.add(
                                     new Value<>(
-                                            i,
-                                            Variable.INT
+                                            elementsType == Variable.INT ? (int) i : i,
+                                            elementsType
                                     )
                             );
+                            System.out.println(((int)i).class);
                         }
 
                         // Add generated array to values
                         return new Value<>(
                                 generatedArray,
                                 Variable.ARRAY,
-                                Variable.INT
+                                elementsType
                         );
                     }
                     arrayElements = furtherArrayElements.arrayelements();
@@ -531,37 +601,6 @@ public class Expression {
                     leftMost.subtype
             );
         }
-        // Check if there are logical expressions
-        if (ctx.logicaloperator() != null) {
-
-            // Getting value for each operand
-
-            Value rightMost = evaluate(
-                    ctx.expression(1),
-                    context,
-                    parentVisitor
-            );
-            Value leftMost = evaluate(
-                    ctx.expression(0),
-                    context,
-                    parentVisitor
-            );
-
-            if (rightMost == null || leftMost == null) {
-                Error.throwError(
-                        "Invalid expression",
-                        ctx
-                );
-                return null;
-            }
-
-            // Separate AND and OR logic within source file
-            return LogicalOperator.evaluate(
-                    leftMost,
-                    rightMost,
-                    ctx.logicaloperator()
-            );
-        }
         // Check if there is a comparison operator
         if (ctx.comparisonoperator() != null) {
             // have on mind that there are two expressionsnc trees
@@ -591,8 +630,16 @@ public class Expression {
                     ctx.comparisonoperator()
             );
         }
+        // Check if this is an input expression
+        if (ctx.inputblock() != null ){
+            return InputStatement.handle(
+                    context,
+                    ctx.inputblock(),
+                    parentVisitor
+            );
+        }
 
-        // Check if there are aritmetic expressions
+        // Check if there are aritmetic or logical expressions
 
         // Getting value for each operand
 
@@ -618,17 +665,23 @@ public class Expression {
         if (ctx.TIMES() != null) {
             return AritmeticOperator.times(leftMost, rightMost, ctx);
         }
-        else if (ctx.DIVIDE() != null) {
+        if (ctx.DIVIDE() != null) {
             return AritmeticOperator.divide(leftMost, rightMost, ctx);
         }
-        else if (ctx.PLUS() != null) {
+        if (ctx.PLUS() != null) {
             return AritmeticOperator.sum(leftMost, rightMost, ctx);
         }
-        else if (ctx.MINUS() != null) {
+        if (ctx.MINUS() != null) {
             return AritmeticOperator.difference(leftMost, rightMost, ctx);
         }
-        else if (ctx.MOD() != null) {
+        if (ctx.MOD() != null) {
             return AritmeticOperator.mod(leftMost, rightMost, ctx);
+        }
+        if (ctx.AND() != null) {
+            return LogicalOperator.and(leftMost, rightMost, ctx);
+        }
+        if (ctx.OR() != null) {
+            return LogicalOperator.or(leftMost, rightMost, ctx);
         }
 
         Error.throwError(
@@ -734,35 +787,12 @@ public class Expression {
 
             return AritmeticOperator.singleMinus(evaluated, ctx);
         }
-        // Check if there are logical expressions
-        if (ctx.logicaloperator() != null) {
-
-            // Getting value for each operand
-
-            Value rightMost = evaluateNonComparatorExp(
-                    ctx.expressionnc(1),
+        // Check if this is an input expression
+        if (ctx.inputblock() != null ){
+            return InputStatement.handle(
                     context,
+                    ctx.inputblock(),
                     parentVisitor
-            );
-            Value leftMost = evaluateNonComparatorExp(
-                    ctx.expressionnc(0),
-                    context,
-                    parentVisitor
-            );
-
-            if (rightMost != null || leftMost != null) {
-                Error.throwError(
-                        "Invalid expression",
-                        ctx
-                );
-                return null;
-            }
-
-            // Separate AND and OR logic within source file
-            return LogicalOperator.evaluate(
-                    leftMost,
-                    rightMost,
-                    ctx.logicaloperator()
             );
         }
         // Check if there are aritmetic expressions
@@ -792,17 +822,23 @@ public class Expression {
         if (ctx.TIMES() != null) {
             return AritmeticOperator.times(leftMost, rightMost, ctx);
         }
-        else if (ctx.DIVIDE() != null) {
+        if (ctx.DIVIDE() != null) {
             return AritmeticOperator.divide(leftMost, rightMost, ctx);
         }
-        else if (ctx.PLUS() != null) {
+        if (ctx.PLUS() != null) {
             return AritmeticOperator.sum(leftMost, rightMost, ctx);
         }
-        else if (ctx.MINUS() != null) {
+        if (ctx.MINUS() != null) {
             return AritmeticOperator.difference(leftMost, rightMost, ctx);
         }
-        else if (ctx.MOD() != null) {
+        if (ctx.MOD() != null) {
             return AritmeticOperator.mod(leftMost, rightMost, ctx);
+        }
+        if (ctx.AND() != null) {
+            return LogicalOperator.and(leftMost, rightMost, ctx);
+        }
+        if (ctx.OR() != null) {
+            return LogicalOperator.or(leftMost, rightMost, ctx);
         }
 
         Error.throwError(

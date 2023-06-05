@@ -288,6 +288,36 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 */
 	void exitPrinttype(SMITHGrammarParser.PrinttypeContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#inputblock}.
+	 * @param ctx the parse tree
+	 */
+	void enterInputblock(SMITHGrammarParser.InputblockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#inputblock}.
+	 * @param ctx the parse tree
+	 */
+	void exitInputblock(SMITHGrammarParser.InputblockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#inputprefix}.
+	 * @param ctx the parse tree
+	 */
+	void enterInputprefix(SMITHGrammarParser.InputprefixContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#inputprefix}.
+	 * @param ctx the parse tree
+	 */
+	void exitInputprefix(SMITHGrammarParser.InputprefixContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link SMITHGrammarParser#inputextension}.
+	 * @param ctx the parse tree
+	 */
+	void enterInputextension(SMITHGrammarParser.InputextensionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link SMITHGrammarParser#inputextension}.
+	 * @param ctx the parse tree
+	 */
+	void exitInputextension(SMITHGrammarParser.InputextensionContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#statementbody}.
 	 * @param ctx the parse tree
 	 */
@@ -367,16 +397,6 @@ public interface SMITHGrammarListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitExpressionnc(SMITHGrammarParser.ExpressionncContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link SMITHGrammarParser#logicaloperator}.
-	 * @param ctx the parse tree
-	 */
-	void enterLogicaloperator(SMITHGrammarParser.LogicaloperatorContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link SMITHGrammarParser#logicaloperator}.
-	 * @param ctx the parse tree
-	 */
-	void exitLogicaloperator(SMITHGrammarParser.LogicaloperatorContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link SMITHGrammarParser#comparisonoperator}.
 	 * @param ctx the parse tree

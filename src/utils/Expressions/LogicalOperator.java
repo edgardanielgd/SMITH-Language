@@ -1,13 +1,15 @@
 package src.utils.Expressions;
 
+import org.antlr.v4.runtime.ParserRuleContext;
 import src.gen.SMITHGrammarParser;
 import src.utils.Error;
 import src.utils.Variable;
 
 public class LogicalOperator {
-    public static Value evaluate(
+
+    public static Value or(
             Value leftMost, Value rightMost,
-            SMITHGrammarParser.LogicaloperatorContext ctx
+            ParserRuleContext ctx
     ){
         // Check first if we are able to perform operation
         // Note despite its title, we won't work with numbers all the time actually
@@ -25,22 +27,33 @@ public class LogicalOperator {
             return null;
         }
 
-        boolean value;
+        boolean value = (Boolean) leftMost.value || (Boolean) rightMost.value;
 
-        if( ctx.AND() != null )
-            value = (Boolean) leftMost.value && (Boolean) rightMost.value;
+        return new Value<>( value, Variable.BOOLEAN );
+    }
 
-        else if( ctx.OR() != null )
-            value = (Boolean) leftMost.value || (Boolean) rightMost.value;
+    public static Value and(
+            Value leftMost, Value rightMost,
+            ParserRuleContext ctx
+    ){
+        // Check first if we are able to perform operation
+        // Note despite its title, we won't work with numbers all the time actually
+        boolean areValidOperands = (
+                leftMost.type == Variable.BOOLEAN
+        ) && (
+                rightMost.type == Variable.BOOLEAN
+        );
 
-        else{
+        if( !areValidOperands ){
             Error.throwError(
-                    "Invalid logical operator",
+                    "Invalid operands for logical operator",
                     ctx
             );
             return null;
         }
-        return new Value<>( value, Variable.BOOLEAN );
 
+        boolean value = (Boolean) leftMost.value && (Boolean) rightMost.value;
+
+        return new Value<>( value, Variable.BOOLEAN );
     }
 }
