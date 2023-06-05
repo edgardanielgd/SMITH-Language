@@ -15,7 +15,7 @@ public class Main {
             // Common class definition
             SMITHGrammarLexer lexer = new SMITHGrammarLexer(
                     CharStreams.fromReader(
-                            new FileReader("dist/src/input/test.txt")
+                            new FileReader("src/input/test.txt")
                             // new BufferedReader(
                             //         new InputStreamReader(System.in)
                             // )
