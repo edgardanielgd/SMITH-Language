@@ -24,7 +24,7 @@ bajo la versión 17 de Java, por tanto puede que tengas inconvenientes si no usa
 Abra el proyecto en un IDE apropiada para Java, la presente implementación se realizó usando la versión 17 de openjdk y el IDE IntelliJ IDEA.
 Tras abrir el proyecto vincule las librerías o módulos (ya sea como archivos JAR individuales o la carpeta completa) ubicadas en la carpeta lib adjunta a éste proyecto.
 Ahora, seleccione como punto de entrada la clase Main ubicada en la carpeta src.Main. Tras dicho proceso, bastará con ejecutar el proyecto mediante el IDE o mediante una
-consola de comandos. Al igual que la ejecución, se requiere del archivo test.txt en la carpeta src/input.
+consola de comandos. Al igual que la ejecución, se requiere del archivo test.sm en la carpeta src/input.
 ## Sintaxis
 ### Operaciones aritméticas
 En SMITH, puedes realizar operaciones aritméticas básicas utilizando los operadores correspondientes. Por ejemplo, puedes sumar dos números utilizando el operador +:
@@ -64,8 +64,12 @@ Algunas de las funciones probabilisticas implementadas se muestran a continuaci�
 ```
 
 ## Ejemplos
-Carpeta con ejemplos de código:
-[Ejemplos](./examples/)
+En la carpeta **/examples/** se encuentran algunos ejemplos de uso de SMITH. Para ejecutarlos, debes abrir el archivo smith.jar y escribir el siguiente comando en la terminal:
+
+```
+java -jar SMITH.jar <nombre del archivo>
+```
+Gran parte de los ejemplos estan orientados a dar una idea basica de como funciona la sintaxis en este DSL; hay dos ejemplos que representan una complejidad un poco mayor: code1.sm y code2.sm.
 
 ## Créditos
 SMITH fue desarrollado por:

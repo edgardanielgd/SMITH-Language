@@ -27,6 +27,7 @@ public class LoopStatement {
         SMITHGrammarParser.StatementbodyContext statementBody = loopExtension.statementbody();
 
         // Get loop type
+
         if( loopExtension.REPEAT() != null ){
             // Repeat loop
 
@@ -40,11 +41,11 @@ public class LoopStatement {
             );
 
             while(
-                evaluatedExpression.type == Variable.BOOLEAN &&
-                (repeatType.UNTIL() != null ?
-                        ! ((boolean) evaluatedExpression.value) :
-                        ((boolean) evaluatedExpression.value)
-                )
+                    evaluatedExpression.type == Variable.BOOLEAN &&
+                            (repeatType.UNTIL() != null ?
+                                    ! ((boolean) evaluatedExpression.value) :
+                                    ((boolean) evaluatedExpression.value)
+                            )
             ){
                 int status = BlockHandler.handle(statementBody.block(), context, parentVisitor);
                 if( status != 0 ){
@@ -55,8 +56,10 @@ public class LoopStatement {
                 );
             }
 
+            return 0;
+
         }
-        else if( loopExtension.FOR() != null ){
+        if( loopExtension.FOR() != null ){
             // For loop
 
             // Specify for type
@@ -71,8 +74,8 @@ public class LoopStatement {
                 if( evaluatedExpression.type != Variable.ARRAY ){
                     Error.throwError(
                             "Expected array in for each loop, got " +
-                            typeToString(evaluatedExpression.type) +
-                            " instead",
+                                    typeToString(evaluatedExpression.type) +
+                                    " instead",
                             ctx
                     );
                     return 1;

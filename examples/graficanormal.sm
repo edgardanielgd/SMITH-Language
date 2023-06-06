@@ -1,0 +1,10 @@
+define:float x as [];
+define:float y as [];
+
+loop:for:each {val in [-5; 0.1; 5] } [
+    set x as x ~ val;
+    set y as y ~ (call:dNorm{val, 0, 1});
+]
+
+output:plot{x, y};
+

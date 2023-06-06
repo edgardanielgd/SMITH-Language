@@ -1,8 +1,8 @@
-define:function:int fibonacci as {int:x} [
-    decide:si {x > 2} [
-        return call:fibonacci{x-1}+call:fibonacci{x-2};
+define:function:int fibonacci as { int:param } [
+    decide:if { param < 2 } [
+        return param;
     ]
-    return 1;
+    return call:fibonacci{param - 1} + call:fibonacci{param - 2};
 ];
 
 output:print{call:fibonacci{11}};

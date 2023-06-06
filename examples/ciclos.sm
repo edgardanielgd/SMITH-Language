@@ -1,0 +1,22 @@
+// Veamos que es posible construir estructuras ciclicas en SMITH
+
+define:int a as 3;
+define:int b as [];
+// Agrega unos al arreglo hasta que se cumpla la condicion
+loop:repeat:until { a > 10 }[
+   set a as a + 1;
+   set b as b ~ 1;
+]
+
+// Imprime el arreglo
+output:println { b };
+
+// Podemos hacer lo mismo utilizando una logica un poquito diferente
+set a as 7;
+set b as [];
+loop:repeat:while { a > 0 }[
+   set a as a - 1;
+   set b as b ~ 1;
+]
+
+output:println { b };

@@ -1,0 +1,17 @@
+// Podemos usar algunas funciones relacionadas con probabilidad
+// como la función de densidad de probabilidad (pdf)
+output:println{call:dnorm{0.0, 0.0, 1.0}};
+
+// o la función de distribución acumulada (cdf)
+output:println{call:pnorm{0.0, 0.0, 1.0}};
+
+// Tambien podemos generar un numero aleatorio de una distribución
+output:println{call:rnorm{0.0, 1.0}};
+
+// Y calcular percentiles!
+output:println{call:qnorm{0.5, 0.0, 1.0}};
+
+// Podemos usar funciones trigonometricas
+output:println{call:sin{0.0}};
+output:println{call:cos{0.0}};
+output:println{call:tan{0.0}};

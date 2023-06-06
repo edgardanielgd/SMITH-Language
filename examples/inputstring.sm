@@ -1,0 +1,3 @@
+define:string name = input:readconsole{};
+
+output:print{"Hello, "+name+"!"};

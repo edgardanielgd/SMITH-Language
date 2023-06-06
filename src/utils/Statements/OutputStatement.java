@@ -59,10 +59,10 @@ public class OutputStatement {
 
             if( type.PRINT() != null ){
                 // Print value
-                System.out.println(printable);
+                System.out.print(printable);
             } else if( type.PRINTLN() != null ) {
                 // Print value
-                System.out.print(printable);
+                System.out.println(printable);
             } else {
                 // If it is an error
                 Error.throwError(

@@ -1,0 +1,21 @@
+define:function main as { } [
+    define:int a as 4;
+
+   // Vamos a evaluar los condicionales
+    decide:if{ a < 3 } [
+        define:int c as 5;
+        output:print{ "a < 3" };
+    ] decide:default [
+        define:int d as 6;
+        output:println{ "a >= 3" };
+
+        // Se pueden definir funciones dentro de funciones
+        define:function:bool e as { } [
+            return true;
+        ];
+
+        output:print{ call:e{} };
+    ]
+];
+
+call:main{};

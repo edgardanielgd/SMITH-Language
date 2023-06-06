@@ -9,6 +9,13 @@ import src.visitors.*;
 public class Main {
     public static void main(String[] args) throws IOException{
 
+        if (args.length < 1) {
+            System.out.println("Debes proporcionar la ubicación relativa del archivo como argumento.");
+            return;
+        }
+
+        String filePath = args[0];
+
         try{
             String rootPath = System.getProperty("user.dir");
 
@@ -16,7 +23,9 @@ public class Main {
             // Common class definition
             SMITHGrammarLexer lexer = new SMITHGrammarLexer(
                     CharStreams.fromReader(
-                            new FileReader("src/input/test.sm")
+                            new FileReader(
+                                    rootPath + "/" + filePath
+                            )
                             // new BufferedReader(
                             //         new InputStreamReader(System.in)
                             // )

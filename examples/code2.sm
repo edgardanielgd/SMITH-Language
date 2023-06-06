@@ -1,0 +1,18 @@
+// Sumatoria de los n primeros numeros
+define:function:int sum as {int:n} [
+    define:int x as 0;
+    loop:for:each {val in [1; 1; n] } [
+        set x as x + val;
+    ]
+
+    return x;
+];
+
+define:function:int fibonacci as { int:param } [
+    decide:if { param < 2 } [
+        return param;
+    ]
+    return call:fibonacci{param - 1} + call:fibonacci{param - 2};
+];
+
+output:print{call:sum{call:fibonacci{6}}};

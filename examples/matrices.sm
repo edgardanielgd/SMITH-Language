@@ -1,5 +1,16 @@
+// Definamos un par de matrices
 define:float matriz1 as [ [0.1, 0.2], [0.3, 0.4], [0.5, 0.6] ];
 define:float matriz2 as [ [0.1, 0.2, 0.3], [0.5, 0.6, 0.7] ];
 
-output:print{matriz1 * matriz2};
+// Podemos multiplicar matrices
+output:println{matriz1 * matriz2};
 
+// Podemos sumar elementos a una matriz (se suma a cada componente de la matriz)
+output:println{matriz1 + 2};
+
+// Podemos sumar matrices (deben tener el mismo tamaño)
+set matriz1 as [ [1.5, 1.8, 1.9], [2.1, 2.2, 2.3] ];
+output:println{matriz1 + matriz2};
+
+// Podemos restar matrices (deben tener el mismo tamaño)
+output:print{matriz1 - matriz2};
